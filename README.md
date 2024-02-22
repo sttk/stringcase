@@ -1,10 +1,10 @@
-# [stringcase][repo-url] [![Go Reference][pkg-dev-img]][pkg-dev-url] [![CI Status][ci-image]][ci-url] [![MIT License][mit-img]][mit-url]
+# [stringcase][repo-url] [![Go Reference][pkg-dev-img]][pkg-dev-url] [![CI Status][ci-img]][ci-url] [![MIT License][mit-img]][mit-url]
 
 This library provides some functions that convert string cases between camelCase, COBOL-CASE, kebab-case, MACRO_CASE, PascalCase, snake_case and Train-Case.
 
 Basically, these functions targets the upper and lower cases of only ASCII alphabets for capitalization, and all characters except ASCII alphabets and ASCII numbers are eliminated as word separators.
 
-To limit characters using as separators, the functions named like *_with_sep are provided, and to keep specified characters, the functions named like *_with_keep are provided.
+To limit characters using as separators, the functions named like `*_with_sep` are provided, and to keep specified characters, the functions named like `*_with_keep` are provided.
 
 ## Install
 
