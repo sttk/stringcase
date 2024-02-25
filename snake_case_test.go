@@ -45,12 +45,20 @@ func TestSnakeCase_convertCobolCase(t *testing.T) {
 
 func TestSnakeCase_convertKeepDigits(t *testing.T) {
 	result := stringcase.SnakeCase("abc123-456defG89HIJklMN12")
-	assert.Equal(t, result, "abc123_456def_g89_hi_jkl_mn12")
+	assert.Equal(t, result, "abc123_456_def_g89_hi_jkl_mn12")
 }
 
 func TestSnakeCase_treatMarksAsSeparators(t *testing.T) {
 	result := stringcase.SnakeCase(":.abc~!@def#$ghi%&jk(lm)no/?")
 	assert.Equal(t, result, "abc_def_ghi_jk_lm_no")
+}
+
+func TestSnakeCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.SnakeCase("123abc456def")
+	assert.Equal(t, result, "123_abc456_def")
+
+	result = stringcase.SnakeCase("123ABC456DEF")
+	assert.Equal(t, result, "123_abc456_def")
 }
 
 func TestSnakeCase_convertEmpty(t *testing.T) {
@@ -110,12 +118,20 @@ func TestSnakeCaseWithSep_convertCobolCase(t *testing.T) {
 	assert.Equal(t, result, "abc-_def-_ghi")
 }
 
-func TestSnakeCaseWithSep_convertKeepDigits(t *testing.T) {
+func TestSnakeCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.SnakeCaseWithSep("abc123-456defG89HIJklMN12", "-")
-	assert.Equal(t, result, "abc123_456def_g89_hi_jkl_mn12")
+	assert.Equal(t, result, "abc123_456_def_g89_hi_jkl_mn12")
 
 	result = stringcase.SnakeCaseWithSep("abc123-456defG89HIJklMN12", "_")
-	assert.Equal(t, result, "abc123-_456def_g89_hi_jkl_mn12")
+	assert.Equal(t, result, "abc123-456_def_g89_hi_jkl_mn12")
+}
+
+func TestSnakeCaseWithSep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.SnakeCaseWithSep("123abc456def", "-")
+	assert.Equal(t, result, "123_abc456_def")
+
+	result = stringcase.SnakeCaseWithSep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123_abc456_def")
 }
 
 func TestSnakeCaseWithSep_treatMarksAsSeparators(t *testing.T) {
@@ -180,12 +196,20 @@ func TestSnakeCaseWithKeep_convertCobolCase(t *testing.T) {
 	assert.Equal(t, result, "abc-_def-_ghi")
 }
 
-func TestSnakeCaseWithKeep_convertKeepDigits(t *testing.T) {
+func TestSnakeCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.SnakeCaseWithKeep("abc123-456defG89HIJklMN12", "_")
-	assert.Equal(t, result, "abc123_456def_g89_hi_jkl_mn12")
+	assert.Equal(t, result, "abc123_456_def_g89_hi_jkl_mn12")
 
 	result = stringcase.SnakeCaseWithKeep("abc123-456defG89HIJklMN12", "-")
-	assert.Equal(t, result, "abc123-_456def_g89_hi_jkl_mn12")
+	assert.Equal(t, result, "abc123-456_def_g89_hi_jkl_mn12")
+}
+
+func TestSnakeCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.SnakeCaseWithKeep("123abc456def", "-")
+	assert.Equal(t, result, "123_abc456_def")
+
+	result = stringcase.SnakeCaseWithKeep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123_abc456_def")
 }
 
 func TestSnakeCaseWithKeep_treatMarksAsSeparators(t *testing.T) {

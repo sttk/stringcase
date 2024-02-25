@@ -45,7 +45,15 @@ func TestCobolCase_convertCobolCase(t *testing.T) {
 
 func TestCobolCase_keepDigits(t *testing.T) {
 	result := stringcase.CobolCase("abc123-456defG789HIJklMN12")
-	assert.Equal(t, result, "ABC123-456DEF-G789-HI-JKL-MN12")
+	assert.Equal(t, result, "ABC123-456-DEF-G789-HI-JKL-MN12")
+}
+
+func TtestCobolCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.CobolCase("123abc456def")
+	assert.Equal(t, result, "123-ABC456-DEF")
+
+	result = stringcase.CobolCase("123ABC456DEF")
+	assert.Equal(t, result, "123-ABC456-DEF")
 }
 
 func TestCobolCase_treatMarksAsSeparators(t *testing.T) {
@@ -112,10 +120,18 @@ func TestCobolCaseWithSep_convertCobolCase(t *testing.T) {
 
 func TestCobolCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.CobolCaseWithSep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "ABC123-456DEF-G789-HI-JKL-MN12")
+	assert.Equal(t, result, "ABC123-456-DEF-G789-HI-JKL-MN12")
 
 	result = stringcase.CobolCaseWithSep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "ABC123--456DEF-G789-HI-JKL-MN12")
+	assert.Equal(t, result, "ABC123-456-DEF-G789-HI-JKL-MN12")
+}
+
+func TestCobolCaseWithSep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.CobolCaseWithSep("123abc456def", "-")
+	assert.Equal(t, result, "123-ABC456-DEF")
+
+	result = stringcase.CobolCaseWithSep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123-ABC456-DEF")
 }
 
 func TestCobolCaseWithSep_treatMarksAsSeparators(t *testing.T) {
@@ -182,10 +198,18 @@ func TestCobolCaseWithKeep_convertCobolCase(t *testing.T) {
 
 func TestCobolCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.CobolCaseWithKeep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "ABC123-456DEF-G789-HI-JKL-MN12")
+	assert.Equal(t, result, "ABC123-456-DEF-G789-HI-JKL-MN12")
 
 	result = stringcase.CobolCaseWithKeep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "ABC123--456DEF-G789-HI-JKL-MN12")
+	assert.Equal(t, result, "ABC123-456-DEF-G789-HI-JKL-MN12")
+}
+
+func TestCobolCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.CobolCaseWithKeep("123abc456def", "-")
+	assert.Equal(t, result, "123-ABC456-DEF")
+
+	result = stringcase.CobolCaseWithKeep("123abc456def", "_")
+	assert.Equal(t, result, "123-ABC456-DEF")
 }
 
 func TestCobolCaseWithKeep_treatMarksAsSeparators(t *testing.T) {

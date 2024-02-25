@@ -45,7 +45,15 @@ func TestMacroCase_convertCobolCase(t *testing.T) {
 
 func TestMacroCase_keepDigits(t *testing.T) {
 	result := stringcase.MacroCase("abc123-456defG89HIJklMN12")
-	assert.Equal(t, result, "ABC123_456DEF_G89_HI_JKL_MN12")
+	assert.Equal(t, result, "ABC123_456_DEF_G89_HI_JKL_MN12")
+}
+
+func TestMacroCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.MacroCase("123abc456def")
+	assert.Equal(t, result, "123_ABC456_DEF")
+
+	result = stringcase.MacroCase("123ABC456DEF")
+	assert.Equal(t, result, "123_ABC456_DEF")
 }
 
 func TestMacroCase_treatMarksAsSeparators(t *testing.T) {
@@ -104,10 +112,18 @@ func TestMacroCaseWithSep_convertCobolCase(t *testing.T) {
 
 func TestMacroCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.MacroCaseWithSep("abc123-456defG89HIJklMN12", "-")
-	assert.Equal(t, result, "ABC123_456DEF_G89_HI_JKL_MN12")
+	assert.Equal(t, result, "ABC123_456_DEF_G89_HI_JKL_MN12")
 
 	result = stringcase.MacroCaseWithSep("abc123-456defG89HIJklMN12", "_")
-	assert.Equal(t, result, "ABC123-_456DEF_G89_HI_JKL_MN12")
+	assert.Equal(t, result, "ABC123-456_DEF_G89_HI_JKL_MN12")
+}
+
+func TestMacroCaseWithSep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.MacroCaseWithSep("123abc456def", "_")
+	assert.Equal(t, result, "123_ABC456_DEF")
+
+	result = stringcase.MacroCaseWithSep("123ABC456DEF", "_")
+	assert.Equal(t, result, "123_ABC456_DEF")
 }
 
 func TestMacroCaseWithSep_treatMarksAsSeparators(t *testing.T) {
@@ -166,10 +182,18 @@ func TestMacroCaseWithKeep_convertCobolCase(t *testing.T) {
 
 func TestMacroCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.MacroCaseWithKeep("abc123-456defG89HIJklMN12", "_")
-	assert.Equal(t, result, "ABC123_456DEF_G89_HI_JKL_MN12")
+	assert.Equal(t, result, "ABC123_456_DEF_G89_HI_JKL_MN12")
 
 	result = stringcase.MacroCaseWithKeep("abc123-456defG89HIJklMN12", "-")
-	assert.Equal(t, result, "ABC123-_456DEF_G89_HI_JKL_MN12")
+	assert.Equal(t, result, "ABC123-456_DEF_G89_HI_JKL_MN12")
+}
+
+func TestMacroCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.MacroCaseWithKeep("123abc456def", "_")
+	assert.Equal(t, result, "123_ABC456_DEF")
+
+	result = stringcase.MacroCaseWithKeep("123ABC456DEF", "_")
+	assert.Equal(t, result, "123_ABC456_DEF")
 }
 
 func TestMacroCaseWithKeep_treatMarksAsSeparators(t *testing.T) {

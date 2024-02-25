@@ -45,7 +45,15 @@ func TestCamelCase_convertCobolCase(t *testing.T) {
 
 func TestCamelCase_keepDigits(t *testing.T) {
 	result := stringcase.CamelCase("abc123-456defG789HIJklMN12")
-	assert.Equal(t, result, "abc123456defG789HiJklMn12")
+	assert.Equal(t, result, "abc123456DefG789HiJklMn12")
+}
+
+func TestCamelCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.CamelCase("123abc456def")
+	assert.Equal(t, result, "123Abc456Def")
+
+	result = stringcase.CamelCase("123ABC456DEF")
+	assert.Equal(t, result, "123Abc456Def")
 }
 
 func TestCamelCase_treatMarksAsSeparators(t *testing.T) {
@@ -112,10 +120,18 @@ func TestCamelCaseWithSep_convertCobolCase(t *testing.T) {
 
 func TestCamelCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.CamelCaseWithSep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "abc123-456defG789HiJklMn12")
+	assert.Equal(t, result, "abc123-456DefG789HiJklMn12")
 
 	result = stringcase.CamelCaseWithSep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "abc123456defG789HiJklMn12")
+	assert.Equal(t, result, "abc123456DefG789HiJklMn12")
+}
+
+func TestCamelCaseWithSep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.CamelCaseWithSep("123abc456def", "-_")
+	assert.Equal(t, result, "123Abc456Def")
+
+	result = stringcase.CamelCaseWithSep("123ABC456DEF", "-_")
+	assert.Equal(t, result, "123Abc456Def")
 }
 
 func TestCamelCaseWithSep_treatMarksAsSeparators(t *testing.T) {
@@ -182,10 +198,18 @@ func TestCamelCaseWithKeep_convertCobolCase(t *testing.T) {
 
 func TestCamelCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.CamelCaseWithKeep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "abc123456defG789HiJklMn12")
+	assert.Equal(t, result, "abc123456DefG789HiJklMn12")
 
 	result = stringcase.CamelCaseWithKeep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "abc123-456defG789HiJklMn12")
+	assert.Equal(t, result, "abc123-456DefG789HiJklMn12")
+}
+
+func TestCamelCaseWithKeep_whenStartingWithDigit(t *testing.T) {
+	result := stringcase.CamelCaseWithKeep("123abc456def", "_")
+	assert.Equal(t, result, "123Abc456Def")
+
+	result = stringcase.CamelCaseWithKeep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123Abc456Def")
 }
 
 func TestCamelCaseWithKeep_treatMarksAsSeparators(t *testing.T) {

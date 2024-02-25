@@ -19,54 +19,51 @@ import (
 func CamelCase(input string) string {
 	result := make([]rune, 0, len(input))
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: char in first word
-	// 2: previous char is upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsInFirstWord
+		ChIsNextOfUpper
+		ChIsNextOfMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 0, 1:
-				flag = 1
-				result = append(result, toAsciiLowerCase(r))
-			case 2:
-				flag = 2
-				result = append(result, toAsciiLowerCase(r))
+			case ChIsFirstOfStr, ChIsInFirstWord:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsInFirstWord
+			case ChIsNextOfUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				//flag = ChIsNextOfUpper
 			default:
-				flag = 2
-				result = append(result, r)
+				flag = ChIsNextOfUpper
+				result = append(result, ch)
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 2:
-				flag = 4
+			case ChIsNextOfUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
-				result = append(result, r)
-			case 3:
-				flag = 2
-				result = append(result, toAsciiUpperCase(r))
+				result = append(result, ch)
+				flag = ChIsOthers
+			case ChIsNextOfMark:
+				result = append(result, toAsciiUpperCase(ch))
+				flag = ChIsNextOfUpper
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsOthers
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 3:
-				flag = 2
-			default:
-				flag = 4
-			}
-			result = append(result, r)
+		} else if isAsciiDigit(ch) {
+			result = append(result, ch)
+			flag = ChIsNextOfMark
 		} else {
-			if flag != 0 {
-				flag = 3
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
 			}
 		}
 	}
@@ -86,58 +83,52 @@ func CamelCase(input string) string {
 func CamelCaseWithSep(input, seps string) string {
 	result := make([]rune, 0, len(input))
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: char in first word
-	// 2: previous char is upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsInFirstWord
+		ChIsNextOfUpper
+		ChIsNextOfMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if strings.ContainsRune(seps, r) {
-			if flag != 0 {
-				flag = 3
+	for _, ch := range input {
+		if strings.ContainsRune(seps, ch) {
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
 			}
-		} else if isAsciiUpperCase(r) {
+		} else if isAsciiUpperCase(ch) {
 			switch flag {
-			case 0, 1:
-				flag = 1
-				result = append(result, toAsciiLowerCase(r))
-			case 2:
-				flag = 2
-				result = append(result, toAsciiLowerCase(r))
+			case ChIsFirstOfStr, ChIsInFirstWord:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsInFirstWord
+			case ChIsNextOfUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				//flag = ChIsNextOfUpper
 			default:
-				flag = 2
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 2:
-				flag = 4
+			case ChIsNextOfUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
-				result = append(result, r)
-			case 3:
-				flag = 2
-				result = append(result, toAsciiUpperCase(r))
+				result = append(result, ch)
+				flag = ChIsOthers
+			case ChIsNextOfMark:
+				result = append(result, toAsciiUpperCase(ch))
+				flag = ChIsNextOfUpper
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsOthers
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 3:
-				flag = 2
-			default:
-				flag = 4
-			}
-			result = append(result, r)
 		} else {
-			flag = 3
-			result = append(result, r)
+			result = append(result, ch)
+			flag = ChIsNextOfMark
 		}
 	}
 
@@ -157,57 +148,51 @@ func CamelCaseWithSep(input, seps string) string {
 func CamelCaseWithKeep(input, keeped string) string {
 	result := make([]rune, 0, len(input))
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: char in first word
-	// 2: previous char is upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsInFirstWord
+		ChIsNextOfUpper
+		ChIsNextOfMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 0, 1:
-				flag = 1
-				result = append(result, toAsciiLowerCase(r))
-			case 2:
-				flag = 2
-				result = append(result, toAsciiLowerCase(r))
+			case ChIsFirstOfStr, ChIsInFirstWord:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsInFirstWord
+			case ChIsNextOfUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				//flag = ChIsNextOfUpper
 			default:
-				flag = 2
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 2:
-				flag = 4
+			case ChIsNextOfUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
-				result = append(result, r)
-			case 3:
-				flag = 2
-				result = append(result, toAsciiUpperCase(r))
+				result = append(result, ch)
+				flag = ChIsOthers
+			case ChIsNextOfMark:
+				result = append(result, toAsciiUpperCase(ch))
+				flag = ChIsNextOfUpper
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsOthers
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 3:
-				flag = 2
-			default:
-				flag = 4
-			}
-			result = append(result, r)
-		} else if strings.ContainsRune(keeped, r) {
-			flag = 3
-			result = append(result, r)
+		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
+			result = append(result, ch)
+			flag = ChIsNextOfMark
 		} else {
-			if flag != 0 {
-				flag = 3
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
 			}
 		}
 	}

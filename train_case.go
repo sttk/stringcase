@@ -19,72 +19,58 @@ import (
 func TrainCase(input string) string {
 	result := make([]rune, 0, len(input)*2)
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: one and two chars before are upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeepedMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 1, 2:
-				flag = 2
-				result = append(result, toAsciiLowerCase(r))
-			case 0:
-				flag = 1
-				result = append(result, r)
+			case ChIsFirstOfStr:
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
+			case ChIsNextOfUpper, ChIsNextOfContdUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
 			default:
-				flag = 1
-				result = append(result, '-', r)
+				result = append(result, '-', ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-				result = append(result, toAsciiUpperCase(r))
-			case 1:
-				flag = 4
-				// Impossible
-				//n := len(result)
-				//prev := result[n-1]
-				//if isAsciiLowerCase(prev) {
-				//	prev = toAsciiUpperCase(prev)
-				//}
-				//result[n-1] = prev
-				result = append(result, r)
-			case 2:
-				flag = 4
+			case ChIsFirstOfStr:
+				result = append(result, toAsciiUpperCase(ch))
+			case ChIsNextOfContdUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					prev = toAsciiUpperCase(prev)
 				}
 				result[n-1] = '-'
-				result = append(result, prev, r)
-			case 3:
-				flag = 1
-				result = append(result, '-', toAsciiUpperCase(r))
+				result = append(result, prev, ch)
+			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
+				result = append(result, '-', toAsciiUpperCase(ch))
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
 			}
-		} else if isAsciiDigit(r) {
+			flag = ChIsOthers
+		} else if isAsciiDigit(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-				result = append(result, r)
-			case 3:
-				flag = 1
-				result = append(result, '-', r)
+			case ChIsNextOfSepMark:
+				result = append(result, '-', ch)
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
 			}
+			flag = ChIsNextOfKeepedMark
 		} else {
-			if flag != 0 {
-				flag = 3
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
 			}
 		}
 	}
@@ -104,76 +90,58 @@ func TrainCase(input string) string {
 func TrainCaseWithSep(input, seps string) string {
 	result := make([]rune, 0, len(input)*2)
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: one and two chars before are upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeepedMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if strings.ContainsRune(seps, r) {
-			if flag != 0 {
-				flag = 3
+	for _, ch := range input {
+		if strings.ContainsRune(seps, ch) {
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
 			}
-		} else if isAsciiUpperCase(r) {
+		} else if isAsciiUpperCase(ch) {
 			switch flag {
-			case 1, 2:
-				flag = 2
-				result = append(result, toAsciiLowerCase(r))
-			case 0:
-				flag = 1
-				result = append(result, r)
+			case ChIsFirstOfStr:
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
+			case ChIsNextOfUpper, ChIsNextOfContdUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
 			default:
-				flag = 1
-				result = append(result, '-', r)
+				result = append(result, '-', ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-				result = append(result, toAsciiUpperCase(r))
-			case 1:
-				flag = 4
-				// Impossible
-				//n := len(result)
-				//prev := result[n-1]
-				//if isAsciiLowerCase(prev) {
-				//	prev = toAsciiUpperCase(prev)
-				//}
-				//result[n-1] = prev
-				result = append(result, r)
-			case 2:
-				flag = 4
+			case ChIsFirstOfStr:
+				result = append(result, toAsciiUpperCase(ch))
+			case ChIsNextOfContdUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					prev = toAsciiUpperCase(prev)
 				}
 				result[n-1] = '-'
-				result = append(result, prev, r)
-			case 3:
-				flag = 1
-				result = append(result, '-', toAsciiUpperCase(r))
+				result = append(result, prev, ch)
+			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
+				result = append(result, '-', toAsciiUpperCase(ch))
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 0:
-				flag = 1
-				result = append(result, r)
-			case 3:
-				flag = 1
-				result = append(result, '-', r)
-			default:
-				flag = 4
-				result = append(result, r)
-			}
+			flag = ChIsOthers
 		} else {
-			flag = 3
-			result = append(result, r)
+			if flag == ChIsNextOfSepMark {
+				result = append(result, '-', ch)
+			} else {
+				result = append(result, ch)
+			}
+			flag = ChIsNextOfKeepedMark
 		}
 	}
 
@@ -193,75 +161,57 @@ func TrainCaseWithSep(input, seps string) string {
 func TrainCaseWithKeep(input, keeped string) string {
 	result := make([]rune, 0, len(input)*2)
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: one and two chars before are upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeepedMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 1, 2:
-				flag = 2
-				result = append(result, toAsciiLowerCase(r))
-			case 0:
-				flag = 1
-				result = append(result, r)
+			case ChIsFirstOfStr:
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
+			case ChIsNextOfUpper, ChIsNextOfContdUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
 			default:
-				flag = 1
-				result = append(result, '-', r)
+				result = append(result, '-', ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-				result = append(result, toAsciiUpperCase(r))
-			case 1:
-				flag = 4
-				// Impossible
-				//n := len(result)
-				//prev := result[n-1]
-				//if isAsciiLowerCase(prev) {
-				//	prev = toAsciiUpperCase(prev)
-				//}
-				//result[n-1] = prev
-				result = append(result, r)
-			case 2:
-				flag = 4
+			case ChIsFirstOfStr:
+				result = append(result, toAsciiUpperCase(ch))
+			case ChIsNextOfContdUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					prev = toAsciiUpperCase(prev)
 				}
 				result[n-1] = '-'
-				result = append(result, prev, r)
-			case 3:
-				flag = 1
-				result = append(result, '-', toAsciiUpperCase(r))
+				result = append(result, prev, ch)
+			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
+				result = append(result, '-', toAsciiUpperCase(ch))
 			default:
-				flag = 4
-				result = append(result, r)
+				result = append(result, ch)
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 0:
-				flag = 1
-				result = append(result, r)
-			case 3:
-				flag = 1
-				result = append(result, '-', r)
-			default:
-				flag = 4
-				result = append(result, r)
+			flag = ChIsOthers
+		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
+			if flag == ChIsNextOfSepMark {
+				result = append(result, '-', ch)
+			} else {
+				result = append(result, ch)
 			}
-		} else if strings.ContainsRune(keeped, r) {
-			flag = 3
-			result = append(result, r)
+			flag = ChIsNextOfKeepedMark
 		} else {
-			if flag != 0 {
-				flag = 3
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
 			}
 		}
 	}
