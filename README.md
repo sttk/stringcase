@@ -37,23 +37,23 @@ This library supports Go 1.18 or later.
 % gvm-fav
 Now using version go1.18.10
 go version go1.18.10 darwin/amd64
-ok  	github.com/sttk/stringcase	0.311s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.235s	coverage: 100.0% of statements
 
 Now using version go1.19.13
 go version go1.19.13 darwin/amd64
-ok  	github.com/sttk/stringcase	0.229s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.237s	coverage: 100.0% of statements
 
 Now using version go1.20.14
 go version go1.20.14 darwin/amd64
-ok  	github.com/sttk/stringcase	0.260s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.185s	coverage: 100.0% of statements
 
 Now using version go1.21.7
 go version go1.21.7 darwin/amd64
-ok  	github.com/sttk/stringcase	0.234s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.189s	coverage: 100.0% of statements
 
 Now using version go1.22
 go version go1.22.0 darwin/amd64
-ok  	github.com/sttk/stringcase	0.231s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.192s	coverage: 100.0% of statements
 
 Back to go1.22
 Now using version go1.22
