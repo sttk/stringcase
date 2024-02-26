@@ -45,7 +45,15 @@ func TestKebabCase_convertCobolCase(t *testing.T) {
 
 func TestKebabCase_keepDigits(t *testing.T) {
 	result := stringcase.KebabCase("abc123-456defG789HIJklMN12")
-	assert.Equal(t, result, "abc123-456def-g789-hi-jkl-mn12")
+	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
+}
+
+func TestKebabCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.KebabCase("123abc456def")
+	assert.Equal(t, result, "123-abc456-def")
+
+	result = stringcase.KebabCase("123ABC456DEF")
+	assert.Equal(t, result, "123-abc456-def")
 }
 
 func TestKebabCase_treatMarksAsSeparators(t *testing.T) {
@@ -112,10 +120,18 @@ func TestKebabCaseWithSep_convertCobolCase(t *testing.T) {
 
 func TestKebabCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.KebabCaseWithSep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "abc123-456def-g789-hi-jkl-mn12")
+	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
 
 	result = stringcase.KebabCaseWithSep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "abc123--456def-g789-hi-jkl-mn12")
+	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
+}
+
+func TestKebabCaseWithSep_convertWithStartingWithDigit(t *testing.T) {
+	result := stringcase.KebabCaseWithSep("123abc456def", "-")
+	assert.Equal(t, result, "123-abc456-def")
+
+	result = stringcase.KebabCaseWithSep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123-abc456-def")
 }
 
 func TestKebabCaseWithSep_treatMarksAsSeparators(t *testing.T) {
@@ -182,10 +198,18 @@ func TestKebabCaseWithKeep_convertCobolCase(t *testing.T) {
 
 func TestKebabCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.KebabCaseWithKeep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "abc123-456def-g789-hi-jkl-mn12")
+	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
 
 	result = stringcase.KebabCaseWithKeep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "abc123--456def-g789-hi-jkl-mn12")
+	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
+}
+
+func TestKebabCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.KebabCaseWithKeep("123abc456def", "-")
+	assert.Equal(t, result, "123-abc456-def")
+
+	result = stringcase.KebabCaseWithKeep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123-abc456-def")
 }
 
 func TestKebabCaseWithKeep_treatMarksAsSeparators(t *testing.T) {

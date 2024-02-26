@@ -19,51 +19,47 @@ import (
 func PascalCase(input string) string {
 	result := make([]rune, 0, len(input))
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: previous char is mark
-	// 3: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 1:
-				flag = 1
-				result = append(result, toAsciiLowerCase(r))
+			case ChIsNextOfUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				//flag = ChIsNextOfUpper
 			default:
-				flag = 1
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 1:
-				flag = 3
+			case ChIsNextOfUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
-				result = append(result, r)
-			case 0, 2:
-				flag = 1
-				result = append(result, toAsciiUpperCase(r))
+				result = append(result, ch)
+				flag = ChIsOthers
+			case ChIsFirstOfStr, ChIsNextOfMark:
+				result = append(result, toAsciiUpperCase(ch))
+				flag = ChIsNextOfUpper
 			default:
-				flag = 3
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsOthers
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 0, 2:
-				flag = 1
-				result = append(result, r)
-			default:
-				flag = 3
-				result = append(result, r)
-			}
+		} else if isAsciiDigit(ch) {
+			result = append(result, ch)
+			flag = ChIsNextOfMark
 		} else {
-			if flag != 0 {
-				flag = 2
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
 			}
 		}
 	}
@@ -83,55 +79,48 @@ func PascalCase(input string) string {
 func PascalCaseWithSep(input, seps string) string {
 	result := make([]rune, 0, len(input))
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: previous char is mark
-	// 3: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if strings.ContainsRune(seps, r) {
-			if flag != 0 {
-				flag = 2
+	for _, ch := range input {
+		if strings.ContainsRune(seps, ch) {
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
 			}
-		} else if isAsciiUpperCase(r) {
+		} else if isAsciiUpperCase(ch) {
 			switch flag {
-			case 1:
-				flag = 1
-				result = append(result, toAsciiLowerCase(r))
+			case ChIsNextOfUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				//flag = ChIsNextOfUpper
 			default:
-				flag = 1
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 1:
-				flag = 3
+			case ChIsNextOfUpper:
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
-				result = append(result, r)
-			case 0, 2:
-				flag = 1
-				result = append(result, toAsciiUpperCase(r))
+				result = append(result, ch)
+				flag = ChIsOthers
+			case ChIsFirstOfStr, ChIsNextOfMark:
+				result = append(result, toAsciiUpperCase(ch))
+				flag = ChIsNextOfUpper
 			default:
-				flag = 3
-				result = append(result, r)
-			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 0, 2:
-				flag = 1
-				result = append(result, r)
-			default:
-				flag = 3
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsOthers
 			}
 		} else {
-			flag = 2
-			result = append(result, r)
+			result = append(result, ch)
+			flag = ChIsNextOfMark
 		}
 	}
 
@@ -150,54 +139,47 @@ func PascalCaseWithSep(input, seps string) string {
 func PascalCaseWithKeep(input, keeped string) string {
 	result := make([]rune, 0, len(input))
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: previous char is mark
-	// 3: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 1:
-				flag = 1
-				result = append(result, toAsciiLowerCase(r))
+			case ChIsNextOfUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				//flag = ChIsNextOfUpper
 			default:
-				flag = 1
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
 			}
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
 			case 1:
-				flag = 3
 				n := len(result)
 				prev := result[n-1]
 				if isAsciiLowerCase(prev) {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
-				result = append(result, r)
-			case 0, 2:
-				flag = 1
-				result = append(result, toAsciiUpperCase(r))
+				result = append(result, ch)
+				flag = ChIsOthers
+			case ChIsFirstOfStr, ChIsNextOfMark:
+				result = append(result, toAsciiUpperCase(ch))
+				flag = ChIsNextOfUpper
 			default:
-				flag = 3
-				result = append(result, r)
+				result = append(result, ch)
+				flag = ChIsOthers
 			}
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 0, 2:
-				flag = 1
-				result = append(result, r)
-			default:
-				flag = 3
-				result = append(result, r)
-			}
-		} else if strings.ContainsRune(keeped, r) {
-			flag = 2
-			result = append(result, r)
+		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
+			result = append(result, ch)
+			flag = ChIsNextOfMark
 		} else {
-			if flag != 0 {
-				flag = 2
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
 			}
 		}
 	}

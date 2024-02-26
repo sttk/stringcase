@@ -45,7 +45,15 @@ func TestPascalCase_convertCobolCase(t *testing.T) {
 
 func TestPascalCase_keepDigits(t *testing.T) {
 	result := stringcase.PascalCase("abc123-456defG789HIJklMN12")
-	assert.Equal(t, result, "Abc123456defG789HiJklMn12")
+	assert.Equal(t, result, "Abc123456DefG789HiJklMn12")
+}
+
+func TestPascalCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.PascalCase("123abc456def")
+	assert.Equal(t, result, "123Abc456Def")
+
+	result = stringcase.PascalCase("123ABC456DEF")
+	assert.Equal(t, result, "123Abc456Def")
 }
 
 func TestPascalCase_treatMarksAsSeparators(t *testing.T) {
@@ -112,10 +120,18 @@ func TestPascalCaseWithSep_convertCobolCase(t *testing.T) {
 
 func TestPascalCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.PascalCaseWithSep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "Abc123456defG789HiJklMn12")
+	assert.Equal(t, result, "Abc123456DefG789HiJklMn12")
 
 	result = stringcase.PascalCaseWithSep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "Abc123-456defG789HiJklMn12")
+	assert.Equal(t, result, "Abc123-456DefG789HiJklMn12")
+}
+
+func TestPascalCaseWithSep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.PascalCaseWithSep("123abc456def", "_")
+	assert.Equal(t, result, "123Abc456Def")
+
+	result = stringcase.PascalCaseWithSep("123ABC456DEF", "_")
+	assert.Equal(t, result, "123Abc456Def")
 }
 
 func TestPascalCaseWithSep_marksAsSeparators(t *testing.T) {
@@ -182,10 +198,18 @@ func TestPascalCaseWithKeep_convertCobolCase(t *testing.T) {
 
 func TestPascalCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.PascalCaseWithKeep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "Abc123456defG789HiJklMn12")
+	assert.Equal(t, result, "Abc123456DefG789HiJklMn12")
 
 	result = stringcase.PascalCaseWithKeep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "Abc123-456defG789HiJklMn12")
+	assert.Equal(t, result, "Abc123-456DefG789HiJklMn12")
+}
+
+func TestPascalCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.PascalCaseWithKeep("123abc456def", "_")
+	assert.Equal(t, result, "123Abc456Def")
+
+	result = stringcase.PascalCaseWithKeep("123ABC456DEF", "_")
+	assert.Equal(t, result, "123Abc456Def")
 }
 
 func TestPascalCaseWithKeep_treatMarksAsSeparators(t *testing.T) {

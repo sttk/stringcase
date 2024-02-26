@@ -19,46 +19,53 @@ import (
 func KebabCase(input string) string {
 	result := make([]rune, 0, len(input)+len(input)/2)
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: one and two chars before are upper
-	// 3: previous char is mark
-	// 4: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeepedMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-			case 1, 2:
-				flag = 2
+			case ChIsFirstOfStr:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
+			case ChIsNextOfUpper, ChIsNextOfContdUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
 			default:
-				flag = 1
 				result = append(result, '-')
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
 			}
-			result = append(result, toAsciiLowerCase(r))
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 2:
+			case ChIsNextOfContdUpper:
 				n := len(result)
 				prev := result[n-1]
 				result[n-1] = '-'
-				result = append(result, prev)
-			case 3:
-				result = append(result, '-')
+				result = append(result, prev, ch)
+			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
+				result = append(result, '-', ch)
+			default:
+				result = append(result, ch)
 			}
-			flag = 4
-			result = append(result, r)
-		} else if isAsciiDigit(r) {
-			if flag == 3 {
-				result = append(result, '-')
+			flag = ChIsOthers
+		} else if isAsciiDigit(ch) {
+			if flag == ChIsNextOfSepMark {
+				result = append(result, '-', ch)
+			} else {
+				result = append(result, ch)
 			}
-			flag = 4
-			result = append(result, r)
+			flag = ChIsNextOfKeepedMark
 		} else {
-			if flag != 0 {
-				flag = 3
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
 			}
 		}
 	}
@@ -78,55 +85,52 @@ func KebabCase(input string) string {
 func KebabCaseWithSep(input, seps string) string {
 	result := make([]rune, 0, len(input)+len(input)/2)
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: one and two chars before are upper
-	// 3: previous char is mark (separator)
-	// 4: previous char is mark (keeped)
-	// 5: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeepedMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if strings.ContainsRune(seps, r) {
-			if flag != 0 {
-				flag = 3
+	for _, ch := range input {
+		if strings.ContainsRune(seps, ch) {
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
 			}
-		} else if isAsciiUpperCase(r) {
+		} else if isAsciiUpperCase(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-			case 1, 2:
-				flag = 2
+			case ChIsFirstOfStr:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
+			case ChIsNextOfUpper, ChIsNextOfContdUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
 			default:
-				flag = 1
-				result = append(result, '-')
+				result = append(result, '-', toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
 			}
-			result = append(result, toAsciiLowerCase(r))
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 2:
+			case ChIsNextOfContdUpper:
 				n := len(result)
 				prev := result[n-1]
 				result[n-1] = '-'
-				result = append(result, prev)
-			case 3, 4:
-				result = append(result, '-')
+				result = append(result, prev, ch)
+			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
+				result = append(result, '-', ch)
+			default:
+				result = append(result, ch)
 			}
-			flag = 5
-			result = append(result, r)
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 3, 4:
-				result = append(result, '-')
-			}
-			flag = 5
-			result = append(result, r)
+			flag = ChIsOthers
 		} else {
-			if flag == 3 {
+			if flag == ChIsNextOfSepMark {
 				result = append(result, '-')
 			}
-			flag = 4
-			result = append(result, r)
+			result = append(result, ch)
+			flag = ChIsNextOfKeepedMark
 		}
 	}
 
@@ -146,54 +150,52 @@ func KebabCaseWithSep(input, seps string) string {
 func KebabCaseWithKeep(input, keeped string) string {
 	result := make([]rune, 0, len(input)+len(input)/2)
 
-	var flag uint8 = 0
-	// 0: first char
-	// 1: previous char is upper
-	// 2: one and two chars before are upper
-	// 3: previous char is mark (separator)
-	// 4: previous char is mark (keeped)
-	// 5: other
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeepedMark
+		ChIsOthers
+	)
+	var flag uint8 = ChIsFirstOfStr
 
-	for _, r := range input {
-		if isAsciiUpperCase(r) {
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
 			switch flag {
-			case 0:
-				flag = 1
-			case 1, 2:
-				flag = 2
+			case ChIsFirstOfStr:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
+			case ChIsNextOfUpper, ChIsNextOfContdUpper:
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
 			default:
-				flag = 1
-				result = append(result, '-')
+				result = append(result, '-', toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
 			}
-			result = append(result, toAsciiLowerCase(r))
-		} else if isAsciiLowerCase(r) {
+		} else if isAsciiLowerCase(ch) {
 			switch flag {
-			case 2:
+			case ChIsNextOfContdUpper:
 				n := len(result)
 				prev := result[n-1]
 				result[n-1] = '-'
-				result = append(result, prev)
-			case 3, 4:
-				result = append(result, '-')
+				result = append(result, prev, ch)
+			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
+				result = append(result, '-', ch)
+			default:
+				result = append(result, ch)
 			}
-			flag = 5
-			result = append(result, r)
-		} else if isAsciiDigit(r) {
-			switch flag {
-			case 3, 4:
-				result = append(result, '-')
+			flag = ChIsOthers
+		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
+			if flag == ChIsNextOfSepMark {
+				result = append(result, '-', ch)
+			} else {
+				result = append(result, ch)
 			}
-			flag = 5
-			result = append(result, r)
-		} else if strings.ContainsRune(keeped, r) {
-			if flag == 3 {
-				result = append(result, '-')
-			}
-			flag = 4
-			result = append(result, r)
+			flag = ChIsNextOfKeepedMark
 		} else {
-			if flag != 0 {
-				flag = 3
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
 			}
 		}
 	}

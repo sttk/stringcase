@@ -45,7 +45,15 @@ func TestTrainCase_convertCobolCase(t *testing.T) {
 
 func TestTrainCase_keepDigits(t *testing.T) {
 	result := stringcase.TrainCase("abc123-456defG89HIJklMN12")
-	assert.Equal(t, result, "Abc123-456def-G89-Hi-Jkl-Mn12")
+	assert.Equal(t, result, "Abc123-456-Def-G89-Hi-Jkl-Mn12")
+}
+
+func TestTrainCase_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.TrainCase("123abc456def")
+	assert.Equal(t, result, "123-Abc456-Def")
+
+	result = stringcase.TrainCase("123ABC456DEF")
+	assert.Equal(t, result, "123-Abc456-Def")
 }
 
 func TestTrainCase_treatMarksAsSeparators(t *testing.T) {
@@ -56,11 +64,6 @@ func TestTrainCase_treatMarksAsSeparators(t *testing.T) {
 func TestTrainCase_convertEmpty(t *testing.T) {
 	result := stringcase.TrainCase("")
 	assert.Equal(t, result, "")
-}
-
-func TestTrainCase_startsWithDigit(t *testing.T) {
-	result := stringcase.TrainCase("123Abc_456Def")
-	assert.Equal(t, result, "123-Abc-456-Def")
 }
 
 ///
@@ -117,28 +120,28 @@ func TestTrainCaseWithSep_convertCobolCase(t *testing.T) {
 
 func TestTrainCaseWithSep_keepDigits(t *testing.T) {
 	result := stringcase.TrainCaseWithSep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "Abc123-456def-G789-Hi-Jkl-Mn12")
+	assert.Equal(t, result, "Abc123-456-Def-G789-Hi-Jkl-Mn12")
 
 	result = stringcase.TrainCaseWithSep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "Abc123--456def-G789-Hi-Jkl-Mn12")
+	assert.Equal(t, result, "Abc123-456-Def-G789-Hi-Jkl-Mn12")
+}
+
+func TestTrainCaseWithSep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.TrainCaseWithSep("123abc456def", "-")
+	assert.Equal(t, result, "123-Abc456-Def")
+
+	result = stringcase.TrainCaseWithSep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123-Abc456-Def")
 }
 
 func TestTrainCaseWithSep_treatMarksAsSeparators(t *testing.T) {
 	result := stringcase.TrainCaseWithSep(":.abc~!@def#$ghi%&jk(lm)no/?", ":@$&()/")
-	assert.Equal(t, result, ".-Abc~!-Def#-Ghi%-Jk-Lm-No?")
+	assert.Equal(t, result, ".-Abc~!-Def#-Ghi%-Jk-Lm-No-?")
 }
 
 func TestTrainCaseWithSep_convertEmpty(t *testing.T) {
 	result := stringcase.TrainCaseWithSep("", "-_")
 	assert.Equal(t, result, "")
-}
-
-func TestTrainCaseWithSep_startsWithDigit(t *testing.T) {
-	result := stringcase.TrainCaseWithSep("123Abc_456Def", "_")
-	assert.Equal(t, result, "123-Abc-456-Def")
-
-	result = stringcase.TrainCaseWithSep("123Abc_456Def", "-")
-	assert.Equal(t, result, "123-Abc_-456-Def")
 }
 
 ///
@@ -195,26 +198,26 @@ func TestTrainCaseWithKeep_convertCobolCase(t *testing.T) {
 
 func TestTrainCaseWithKeep_keepDigits(t *testing.T) {
 	result := stringcase.TrainCaseWithKeep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "Abc123-456def-G789-Hi-Jkl-Mn12")
+	assert.Equal(t, result, "Abc123-456-Def-G789-Hi-Jkl-Mn12")
 
 	result = stringcase.TrainCaseWithKeep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "Abc123--456def-G789-Hi-Jkl-Mn12")
+	assert.Equal(t, result, "Abc123-456-Def-G789-Hi-Jkl-Mn12")
+}
+
+func TestTrainCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
+	result := stringcase.TrainCaseWithKeep("123abc456def", "-")
+	assert.Equal(t, result, "123-Abc456-Def")
+
+	result = stringcase.TrainCaseWithKeep("123ABC456DEF", "-")
+	assert.Equal(t, result, "123-Abc456-Def")
 }
 
 func TestTrainCaseWithKeep_treatMarksAsSeparators(t *testing.T) {
 	result := stringcase.TrainCaseWithKeep(":.abc~!@def#$ghi%&jk(lm)no/?", ".~!#%?")
-	assert.Equal(t, result, ".-Abc~!-Def#-Ghi%-Jk-Lm-No?")
+	assert.Equal(t, result, ".-Abc~!-Def#-Ghi%-Jk-Lm-No-?")
 }
 
 func TestTrainCaseWithKeep_convertEmpty(t *testing.T) {
 	result := stringcase.TrainCaseWithKeep("", "-_")
 	assert.Equal(t, result, "")
-}
-
-func TestTrainCaseWithKeep_startsWithDigit(t *testing.T) {
-	result := stringcase.TrainCaseWithKeep("123Abc_456Def", "-")
-	assert.Equal(t, result, "123-Abc-456-Def")
-
-	result = stringcase.TrainCaseWithKeep("123Abc_456Def", "_")
-	assert.Equal(t, result, "123-Abc_-456-Def")
 }
