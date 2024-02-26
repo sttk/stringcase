@@ -170,8 +170,8 @@ func MacroCaseWithKeep(input, keeped string) string {
 				result = append(result, ch)
 				flag = ChIsNextOfContdUpper
 			default:
-				flag = ChIsNextOfUpper
 				result = append(result, '_', ch)
+				flag = ChIsNextOfUpper
 			}
 		} else if isAsciiLowerCase(ch) {
 			switch flag {

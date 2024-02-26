@@ -38,8 +38,8 @@ func CamelCase(input string) string {
 				result = append(result, toAsciiLowerCase(ch))
 				//flag = ChIsNextOfUpper
 			default:
-				flag = ChIsNextOfUpper
 				result = append(result, ch)
+				flag = ChIsNextOfUpper
 			}
 		} else if isAsciiLowerCase(ch) {
 			switch flag {

@@ -39,8 +39,8 @@ func SnakeCase(input string) string {
 				result = append(result, toAsciiLowerCase(ch))
 				flag = ChIsNextOfContdUpper
 			default:
-				flag = ChIsNextOfUpper
 				result = append(result, '_', toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
 			}
 		} else if isAsciiLowerCase(ch) {
 			switch flag {
