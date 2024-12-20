@@ -23,7 +23,7 @@ func PascalCase(input string) string {
 		ChIsFirstOfStr = iota
 		ChIsNextOfUpper
 		ChIsNextOfMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -46,13 +46,13 @@ func PascalCase(input string) string {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			case ChIsFirstOfStr, ChIsNextOfMark:
 				result = append(result, toAsciiUpperCase(ch))
 				flag = ChIsNextOfUpper
 			default:
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			}
 		} else if isAsciiDigit(ch) {
 			result = append(result, ch)
@@ -83,7 +83,7 @@ func PascalCaseWithSep(input, seps string) string {
 		ChIsFirstOfStr = iota
 		ChIsNextOfUpper
 		ChIsNextOfMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -110,13 +110,13 @@ func PascalCaseWithSep(input, seps string) string {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			case ChIsFirstOfStr, ChIsNextOfMark:
 				result = append(result, toAsciiUpperCase(ch))
 				flag = ChIsNextOfUpper
 			default:
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			}
 		} else {
 			result = append(result, ch)
@@ -143,7 +143,7 @@ func PascalCaseWithKeep(input, keeped string) string {
 		ChIsFirstOfStr = iota
 		ChIsNextOfUpper
 		ChIsNextOfMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -166,13 +166,13 @@ func PascalCaseWithKeep(input, keeped string) string {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			case ChIsFirstOfStr, ChIsNextOfMark:
 				result = append(result, toAsciiUpperCase(ch))
 				flag = ChIsNextOfUpper
 			default:
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			}
 		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
 			result = append(result, ch)

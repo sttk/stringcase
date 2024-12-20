@@ -25,7 +25,7 @@ func TrainCase(input string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -59,7 +59,7 @@ func TrainCase(input string) string {
 			default:
 				result = append(result, ch)
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) {
 			switch flag {
 			case ChIsNextOfSepMark:
@@ -96,7 +96,7 @@ func TrainCaseWithSep(input, seps string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -134,7 +134,7 @@ func TrainCaseWithSep(input, seps string) string {
 			default:
 				result = append(result, ch)
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '-', ch)
@@ -167,7 +167,7 @@ func TrainCaseWithKeep(input, keeped string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -201,7 +201,7 @@ func TrainCaseWithKeep(input, keeped string) string {
 			default:
 				result = append(result, ch)
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '-', ch)

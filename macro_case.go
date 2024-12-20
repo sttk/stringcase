@@ -25,7 +25,7 @@ func MacroCase(input string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -54,7 +54,7 @@ func MacroCase(input string) string {
 			default:
 				result = append(result, toAsciiUpperCase(ch))
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '_', ch)
@@ -90,7 +90,7 @@ func MacroCaseWithSep(input, seps string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -123,7 +123,7 @@ func MacroCaseWithSep(input, seps string) string {
 			default:
 				result = append(result, toAsciiUpperCase(ch))
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '_', ch)
@@ -156,7 +156,7 @@ func MacroCaseWithKeep(input, keeped string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -185,7 +185,7 @@ func MacroCaseWithKeep(input, keeped string) string {
 			default:
 				result = append(result, toAsciiUpperCase(ch))
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '_', ch)

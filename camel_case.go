@@ -24,7 +24,7 @@ func CamelCase(input string) string {
 		ChIsInFirstWord
 		ChIsNextOfUpper
 		ChIsNextOfMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -50,13 +50,13 @@ func CamelCase(input string) string {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			case ChIsNextOfMark:
 				result = append(result, toAsciiUpperCase(ch))
 				flag = ChIsNextOfUpper
 			default:
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			}
 		} else if isAsciiDigit(ch) {
 			result = append(result, ch)
@@ -88,7 +88,7 @@ func CamelCaseWithSep(input, seps string) string {
 		ChIsInFirstWord
 		ChIsNextOfUpper
 		ChIsNextOfMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -118,13 +118,13 @@ func CamelCaseWithSep(input, seps string) string {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			case ChIsNextOfMark:
 				result = append(result, toAsciiUpperCase(ch))
 				flag = ChIsNextOfUpper
 			default:
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			}
 		} else {
 			result = append(result, ch)
@@ -153,7 +153,7 @@ func CamelCaseWithKeep(input, keeped string) string {
 		ChIsInFirstWord
 		ChIsNextOfUpper
 		ChIsNextOfMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -179,13 +179,13 @@ func CamelCaseWithKeep(input, keeped string) string {
 					result[n-1] = toAsciiUpperCase(prev)
 				}
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			case ChIsNextOfMark:
 				result = append(result, toAsciiUpperCase(ch))
 				flag = ChIsNextOfUpper
 			default:
 				result = append(result, ch)
-				flag = ChIsOthers
+				flag = ChIsOther
 			}
 		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
 			result = append(result, ch)

@@ -25,7 +25,7 @@ func CobolCase(input string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -54,7 +54,7 @@ func CobolCase(input string) string {
 				result = append(result, '-')
 			}
 			result = append(result, toAsciiUpperCase(ch))
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '-')
@@ -89,7 +89,7 @@ func CobolCaseWithSep(input, seps string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -122,7 +122,7 @@ func CobolCaseWithSep(input, seps string) string {
 			default:
 				result = append(result, toAsciiUpperCase(ch))
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else {
 			switch flag {
 			case ChIsNextOfSepMark:
@@ -156,7 +156,7 @@ func CobolCaseWithKeep(input, keeped string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -186,7 +186,7 @@ func CobolCaseWithKeep(input, keeped string) string {
 			default:
 				result = append(result, toAsciiUpperCase(ch))
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '-')
