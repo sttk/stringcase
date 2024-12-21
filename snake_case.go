@@ -90,7 +90,7 @@ func SnakeCaseWithSep(input, seps string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -123,7 +123,7 @@ func SnakeCaseWithSep(input, seps string) string {
 			default:
 				result = append(result, ch)
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '_', ch)
@@ -146,7 +146,7 @@ func SnakeCaseWithKeep(input, keeped string) string {
 		ChIsNextOfContdUpper
 		ChIsNextOfSepMark
 		ChIsNextOfKeepedMark
-		ChIsOthers
+		ChIsOther
 	)
 	var flag uint8 = ChIsFirstOfStr
 
@@ -175,7 +175,7 @@ func SnakeCaseWithKeep(input, keeped string) string {
 			default:
 				result = append(result, ch)
 			}
-			flag = ChIsOthers
+			flag = ChIsOther
 		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '_')
