@@ -137,6 +137,16 @@ func SnakeCaseWithSep(input, seps string) string {
 	return string(result)
 }
 
+// Converts a string to snake case using characters other than the specified
+// characters as separators.
+//
+// This function takes a string as its argument, then returns a string of which
+// the case style is snake case.
+//
+// This function targets only the upper and lower cases of ASCII alphabets for
+// capitalization, and the characters other than the specified characters as the
+// second argument of this function are regarded as word separators and are
+// replaced to underscores.
 func SnakeCaseWithKeep(input, keeped string) string {
 	result := make([]rune, 0, len(input)+len(input)/2)
 
