@@ -101,11 +101,7 @@ func TrainCaseWithSep(input, seps string) string {
 	var flag uint8 = ChIsFirstOfStr
 
 	for _, ch := range input {
-		if strings.ContainsRune(seps, ch) {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfSepMark
-			}
-		} else if isAsciiUpperCase(ch) {
+		if isAsciiUpperCase(ch) {
 			switch flag {
 			case ChIsFirstOfStr:
 				result = append(result, ch)
@@ -135,13 +131,17 @@ func TrainCaseWithSep(input, seps string) string {
 				result = append(result, ch)
 			}
 			flag = ChIsOther
-		} else {
+		} else if isAsciiDigit(ch) || !strings.ContainsRune(seps, ch) {
 			if flag == ChIsNextOfSepMark {
 				result = append(result, '-', ch)
 			} else {
 				result = append(result, ch)
 			}
 			flag = ChIsNextOfKeepedMark
+		} else {
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfSepMark
+			}
 		}
 	}
 

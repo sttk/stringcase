@@ -88,11 +88,7 @@ func PascalCaseWithSep(input, seps string) string {
 	var flag uint8 = ChIsFirstOfStr
 
 	for _, ch := range input {
-		if strings.ContainsRune(seps, ch) {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfMark
-			}
-		} else if isAsciiUpperCase(ch) {
+		if isAsciiUpperCase(ch) {
 			switch flag {
 			case ChIsNextOfUpper:
 				result = append(result, toAsciiLowerCase(ch))
@@ -118,9 +114,13 @@ func PascalCaseWithSep(input, seps string) string {
 				result = append(result, ch)
 				flag = ChIsOther
 			}
-		} else {
+		} else if isAsciiDigit(ch) || !strings.ContainsRune(seps, ch) {
 			result = append(result, ch)
 			flag = ChIsNextOfMark
+		} else {
+			if flag != ChIsFirstOfStr {
+				flag = ChIsNextOfMark
+			}
 		}
 	}
 
