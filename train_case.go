@@ -109,6 +109,8 @@ func TrainCase(input string) string {
 
 // TrainCaseWithSep converts the input string to train case with the
 // specified separator characters.
+//
+// Deprecated: Should use TrainCaseWithOptions instead
 func TrainCaseWithSep(input string, seps string) string {
 	return TrainCaseWithOptions(input, Options{
 		SeparateBeforeNonAlphabets: false,
@@ -119,6 +121,8 @@ func TrainCaseWithSep(input string, seps string) string {
 
 // TrainCaseWithKeep converts the input string to train case with the
 // specified characters to be kept.
+//
+// Deprecated: Should use TrainCaseWithOptions instead
 func TrainCaseWithKeep(input string, kept string) string {
 	return TrainCaseWithOptions(input, Options{
 		SeparateBeforeNonAlphabets: false,
