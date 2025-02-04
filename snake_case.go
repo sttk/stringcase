@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Takayuki Sato. All Rights Reserved.
+// Copyright (C) 2024-2025 Takayuki Sato. All Rights Reserved.
 // This program is free software under MIT License.
 // See the file LICENSE in this distribution for more details.
 
@@ -105,7 +105,7 @@ func SnakeCase(input string) string {
 // SnakeCaseWithSep converts the input string to snake case with the
 // specified separator characters.
 //
-// Deprecated: Should use StringCaseWithOptions instead
+// Deprecated: Should use SnakeCaseWithOptions instead
 func SnakeCaseWithSep(input string, seps string) string {
 	return SnakeCaseWithOptions(input, Options{
 		SeparateBeforeNonAlphabets: false,
@@ -117,7 +117,7 @@ func SnakeCaseWithSep(input string, seps string) string {
 // SnakeCaseWithKeep converts the input string to snake case with the
 // specified characters to be kept.
 //
-// Deprecated: Should use StringCaseWithOptions instead
+// Deprecated: Should use SnakeCaseWithOptions instead
 func SnakeCaseWithKeep(input string, kept string) string {
 	return SnakeCaseWithOptions(input, Options{
 		SeparateBeforeNonAlphabets: false,
