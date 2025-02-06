@@ -51,16 +51,14 @@ func SnakeCaseWithOptions(input string, opts Options) string {
 			flag = ChIsOther
 		} else {
 			isKeptChar := false
-			if len(opts.Separators) > 0 {
+			if isAsciiDigit(ch) {
+				isKeptChar = true
+			} else if len(opts.Separators) > 0 {
 				if !strings.ContainsRune(opts.Separators, ch) {
 					isKeptChar = true
 				}
 			} else if len(opts.Keep) > 0 {
-				if isAsciiDigit(ch) || strings.ContainsRune(opts.Keep, ch) {
-					isKeptChar = true
-				}
-			} else {
-				if isAsciiDigit(ch) {
+				if strings.ContainsRune(opts.Keep, ch) {
 					isKeptChar = true
 				}
 			}
