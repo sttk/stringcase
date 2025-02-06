@@ -456,6 +456,13 @@ func TestTrainCaseWithOptions(t *testing.T) {
 			result := stringcase.TrainCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
 		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.TrainCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "Abc-123def")
+		})
 	})
 
 	t.Run("non-alphabets as tail of a word and with separators", func(t *testing.T) {
@@ -569,6 +576,13 @@ func TestTrainCaseWithOptions(t *testing.T) {
 			opts.Separators = "-_"
 			result := stringcase.TrainCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.TrainCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "Abc123-Def")
 		})
 	})
 
@@ -685,6 +699,13 @@ func TestTrainCaseWithOptions(t *testing.T) {
 			result := stringcase.TrainCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
 		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.TrainCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "Abc-123-Def")
+		})
 	})
 
 	t.Run("non-alphabets as part of a word and with separators", func(t *testing.T) {
@@ -798,6 +819,13 @@ func TestTrainCaseWithOptions(t *testing.T) {
 			opts.Separators = "-_"
 			result := stringcase.TrainCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.TrainCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "Abc123def")
 		})
 	})
 

@@ -453,6 +453,13 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			result := stringcase.SnakeCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
 		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.SnakeCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc_123def")
+		})
 	})
 
 	t.Run("non-alphabets as tail of a word and with separators", func(t *testing.T) {
@@ -563,6 +570,13 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			opts.Separators = "-_"
 			result := stringcase.SnakeCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.SnakeCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc123_def")
 		})
 	})
 
@@ -675,6 +689,13 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			result := stringcase.SnakeCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
 		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.SnakeCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc_123_def")
+		})
 	})
 
 	t.Run("non-alphabets as part of a word and with separators", func(t *testing.T) {
@@ -785,6 +806,13 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			opts.Separators = "-_"
 			result := stringcase.SnakeCaseWithOptions("", opts)
 			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.SnakeCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc123def")
 		})
 	})
 
