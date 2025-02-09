@@ -824,14 +824,14 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 
 		t.Run("convert camelCase", func(t *testing.T) {
 			opts := origOpts
-			opts.Separators = "-_"
+			opts.Keep = "-_"
 			result := stringcase.SnakeCaseWithOptions("abcDefGHIjk", opts)
 			assert.Equal(t, result, "abc_def_gh_ijk")
 		})
 
 		t.Run("convert PascalCase", func(t *testing.T) {
 			opts := origOpts
-			opts.Separators = "-_"
+			opts.Keep = "-_"
 			result := stringcase.SnakeCaseWithOptions("AbcDefGHIjk", opts)
 			assert.Equal(t, result, "abc_def_gh_ijk")
 		})
