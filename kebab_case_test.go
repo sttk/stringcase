@@ -8,216 +8,1719 @@ import (
 	"github.com/sttk/stringcase"
 )
 
-func TestKebabCase_convertCamelCase(t *testing.T) {
-	result := stringcase.KebabCase("abcDefGHIjk")
-	assert.Equal(t, result, "abc-def-gh-ijk")
+func TestKebabCase(t *testing.T) {
+	t.Run("convert camelCase", func(t *testing.T) {
+		result := stringcase.KebabCase("abcDefGHIjk")
+		assert.Equal(t, result, "abc-def-gh-ijk")
+	})
+
+	t.Run("convert PascalCase", func(t *testing.T) {
+		result := stringcase.KebabCase("AbcDefGHIjk")
+		assert.Equal(t, result, "abc-def-gh-ijk")
+	})
+
+	t.Run("convert snake_case", func(t *testing.T) {
+		result := stringcase.KebabCase("abc_def_ghi")
+		assert.Equal(t, result, "abc-def-ghi")
+	})
+
+	t.Run("convert kebab-case", func(t *testing.T) {
+		result := stringcase.KebabCase("abc-def-ghi")
+		assert.Equal(t, result, "abc-def-ghi")
+	})
+
+	t.Run("convert Trail-Case", func(t *testing.T) {
+		result := stringcase.KebabCase("Abc-Def-Ghi")
+		assert.Equal(t, result, "abc-def-ghi")
+	})
+
+	t.Run("convert MACRO_CASE", func(t *testing.T) {
+		result := stringcase.KebabCase("ABC_DEF_GHI")
+		assert.Equal(t, result, "abc-def-ghi")
+	})
+
+	t.Run("convert COBOL-CASE", func(t *testing.T) {
+		result := stringcase.KebabCase("ABC-DEF-GHI")
+		assert.Equal(t, result, "abc-def-ghi")
+	})
+
+	t.Run("convert with keeping digits", func(t *testing.T) {
+		result := stringcase.KebabCase("abc123-456defG89HIJklMN12")
+		assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+	})
+
+	t.Run("convert with symbols as seperators", func(t *testing.T) {
+		result := stringcase.KebabCase(":.abc~!@def#$ghi%&jk(lm)no/?")
+		assert.Equal(t, result, "abc-def-ghi-jk-lm-no")
+	})
+
+	t.Run("convert when starting with digit", func(t *testing.T) {
+		result := stringcase.KebabCase("123abc456def")
+		assert.Equal(t, result, "123-abc456-def")
+
+		result = stringcase.KebabCase("123ABC456DEF")
+		assert.Equal(t, result, "123-abc456-def")
+
+		result = stringcase.KebabCase("123Abc456Def")
+		assert.Equal(t, result, "123-abc456-def")
+	})
+
+	t.Run("convert an empty string", func(t *testing.T) {
+		result := stringcase.KebabCase("")
+		assert.Equal(t, result, "")
+	})
 }
 
-func TestKebabCase_convertPascalCase(t *testing.T) {
-	result := stringcase.KebabCase("AbcDefGHIjk")
-	assert.Equal(t, result, "abc-def-gh-ijk")
-}
+func TestKebabCaseWithOptions(t *testing.T) {
+	t.Run("non-alphabets as head of a word", func(t *testing.T) {
+		opts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  false,
+		}
 
-func TestKebabCase_convertSnakeCase(t *testing.T) {
-	result := stringcase.KebabCase("abc_def_ghi")
-	assert.Equal(t, result, "abc-def-ghi")
-}
+		t.Run("convert camelCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-func TestKebabCase_convertKebabCase(t *testing.T) {
-	result := stringcase.KebabCase("abc-def-ghi")
-	assert.Equal(t, result, "abc-def-ghi")
-}
+		t.Run("convert PascalCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-func TestKebabCase_convertTrainCase(t *testing.T) {
-	result := stringcase.KebabCase("Abc-Def-Ghi")
-	assert.Equal(t, result, "abc-def-ghi")
-}
+		t.Run("convert snake_case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCase_convertMacroCase(t *testing.T) {
-	result := stringcase.KebabCase("ABC_DEF_GHI")
-	assert.Equal(t, result, "abc-def-ghi")
-}
+		t.Run("convert kebab-case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCase_convertCobolCase(t *testing.T) {
-	result := stringcase.KebabCase("ABC-DEF-GHI")
-	assert.Equal(t, result, "abc-def-ghi")
-}
+		t.Run("convert Trail-Case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCase_keepDigits(t *testing.T) {
-	result := stringcase.KebabCase("abc123-456defG789HIJklMN12")
-	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
-}
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCase_convertWhenStartingWithDigit(t *testing.T) {
-	result := stringcase.KebabCase("123abc456def")
-	assert.Equal(t, result, "123-abc456-def")
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-	result = stringcase.KebabCase("123ABC456DEF")
-	assert.Equal(t, result, "123-abc456-def")
-}
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+		})
 
-func TestKebabCase_treatMarksAsSeparators(t *testing.T) {
-	result := stringcase.KebabCase(":.abc~!@def#$ghi%&jk(lm)no/?")
-	assert.Equal(t, result, "abc-def-ghi-jk-lm-no")
-}
+		t.Run("convert with symbols as seperators", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, "abc-def-ghi-jk-lm-no")
+		})
 
-func TestKebabCase_convertEmpty(t *testing.T) {
-	result := stringcase.KebabCase("")
-	assert.Equal(t, result, "")
-}
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc-456def")
 
-///
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc-456def")
 
-func TestKebabCaseWithSep_convertCamelCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("abcDefGHIjk", "-_")
-	assert.Equal(t, result, "abc-def-gh-ijk")
-}
+			result = stringcase.KebabCaseWithOptions("123Abc456Def", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+		})
 
-func TestKebabCaseWithSep_convertPascalCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("AbcDefGHIjk", "-_")
-	assert.Equal(t, result, "abc-def-gh-ijk")
-}
+		t.Run("convert an empty string", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
 
-func TestKebabCaseWithSep_convertSnakeCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("abc_def_ghi", "_")
-	assert.Equal(t, result, "abc-def-ghi")
+	t.Run("non-alphabets as tail of a word", func(t *testing.T) {
+		opts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  true,
+		}
 
-	result = stringcase.KebabCaseWithSep("abc_def_ghi", "-")
-	assert.Equal(t, result, "abc_-def_-ghi")
-}
+		t.Run("convert camelCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-func TestKebabCaseWithSep_convertKebabCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("abc-def-ghi", "-")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert PascalCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-	result = stringcase.KebabCaseWithSep("abc-def-ghi", "_")
-	assert.Equal(t, result, "abc--def--ghi")
-}
+		t.Run("convert snake_case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithSep_convertTrainCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("Abc-Def-Ghi", "-")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert kebab-case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-	result = stringcase.KebabCaseWithSep("Abc-Def-Ghi", "_")
-	assert.Equal(t, result, "abc--def--ghi")
-}
+		t.Run("convert Trail-Case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithSep_convertMacroCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("ABC_DEF_GHI", "_")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-	result = stringcase.KebabCaseWithSep("ABC_DEF_GHI", "-")
-	assert.Equal(t, result, "abc_-def_-ghi")
-}
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithSep_convertCobolCase(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("ABC-DEF-GHI", "-")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+		})
 
-	result = stringcase.KebabCaseWithSep("ABC-DEF-GHI", "_")
-	assert.Equal(t, result, "abc--def--ghi")
-}
+		t.Run("convert with symbols as seperators", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, "abc-def-ghi-jk-lm-no")
+		})
 
-func TestKebabCaseWithSep_keepDigits(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc456-def")
 
-	result = stringcase.KebabCaseWithSep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
-}
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc456-def")
 
-func TestKebabCaseWithSep_convertWithStartingWithDigit(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("123abc456def", "-")
-	assert.Equal(t, result, "123-abc456-def")
+			result = stringcase.KebabCaseWithOptions("123Abc456Def", opts)
+			assert.Equal(t, result, "123-abc456-def")
+		})
 
-	result = stringcase.KebabCaseWithSep("123ABC456DEF", "-")
-	assert.Equal(t, result, "123-abc456-def")
-}
+		t.Run("convert an empty string", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
 
-func TestKebabCaseWithSep_treatMarksAsSeparators(t *testing.T) {
-	result := stringcase.KebabCaseWithSep(":.abc~!@def#$ghi%&jk(lm)no/?", ":@$&()/")
-	assert.Equal(t, result, ".-abc~!-def#-ghi%-jk-lm-no-?")
-}
+	t.Run("non-alphabets as a word", func(t *testing.T) {
+		opts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  true,
+		}
 
-func TestKebabCaseWithSep_convertEmpty(t *testing.T) {
-	result := stringcase.KebabCaseWithSep("", "-_")
-	assert.Equal(t, result, "")
-}
+		t.Run("convert camelCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-///
+		t.Run("convert PascalCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-func TestKebabCaseWithKeep_convertCamelCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("abcDefGHIjk", "-_")
-	assert.Equal(t, result, "abc-def-gh-ijk")
-}
+		t.Run("convert snake_case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithKeep_convertPascalCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("AbcDefGHIjk", "-_")
-	assert.Equal(t, result, "abc-def-gh-ijk")
-}
+		t.Run("convert kebab-case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithKeep_convertSnakeCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("abc_def_ghi", "-")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert Trail-Case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-	result = stringcase.KebabCaseWithKeep("abc_def_ghi", "_")
-	assert.Equal(t, result, "abc_-def_-ghi")
-}
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithKeep_convertKebabCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("abc-def-ghi", "_")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-	result = stringcase.KebabCaseWithKeep("abc-def-ghi", "-")
-	assert.Equal(t, result, "abc--def--ghi")
-}
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+		})
 
-func TestKebabCaseWithKeep_convertTrainCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("Abc-Def-Ghi", "_")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert with symbols as seperators", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, "abc-def-ghi-jk-lm-no")
+		})
 
-	result = stringcase.KebabCaseWithKeep("Abc-Def-Ghi", "-")
-	assert.Equal(t, result, "abc--def--ghi")
-}
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc-456-def")
 
-func TestKebabCaseWithKeep_convertMacroCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("ABC_DEF_GHI", "-")
-	assert.Equal(t, result, "abc-def-ghi")
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc-456-def")
 
-	result = stringcase.KebabCaseWithKeep("ABC_DEF_GHI", "_")
-	assert.Equal(t, result, "abc_-def_-ghi")
-}
+			result = stringcase.KebabCaseWithOptions("123Abc456Def", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+		})
 
-func TestKebabCaseWithKeep_convertCobolCase(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("ABC-DEF-GHI", "_")
-	assert.Equal(t, result, "abc-def-ghi")
+		t.Run("convert an empty string", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
 
-	result = stringcase.KebabCaseWithKeep("ABC-DEF-GHI", "-")
-	assert.Equal(t, result, "abc--def--ghi")
-}
+	t.Run("non-alphabets as part of a word", func(t *testing.T) {
+		opts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  false,
+		}
 
-func TestKebabCaseWithKeep_keepDigits(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("abc123-456defG789HIJklMN12", "_")
-	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
+		t.Run("convert camelCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-	result = stringcase.KebabCaseWithKeep("abc123-456defG789HIJklMN12", "-")
-	assert.Equal(t, result, "abc123-456-def-g789-hi-jkl-mn12")
-}
+		t.Run("convert PascalCase", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
 
-func TestKebabCaseWithKeep_convertWhenStartingWithDigit(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("123abc456def", "-")
-	assert.Equal(t, result, "123-abc456-def")
+		t.Run("convert snake_case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-	result = stringcase.KebabCaseWithKeep("123ABC456DEF", "-")
-	assert.Equal(t, result, "123-abc456-def")
-}
+		t.Run("convert kebab-case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithKeep_treatMarksAsSeparators(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep(":.abc~!@def#$ghi%&jk(lm)no/?", ".~!#%?")
-	assert.Equal(t, result, ".-abc~!-def#-ghi%-jk-lm-no-?")
-}
+		t.Run("convert Trail-Case", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
 
-func TestKebabCaseWithKeep_convertEmpty(t *testing.T) {
-	result := stringcase.KebabCaseWithKeep("", "-_")
-	assert.Equal(t, result, "")
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+		})
+
+		t.Run("convert with symbols as seperators", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, "abc-def-ghi-jk-lm-no")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc456def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc456def")
+
+			result = stringcase.KebabCaseWithOptions("123Abc456Def", opts)
+			assert.Equal(t, result, "123-abc456-def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
+
+	t.Run("non-alphabets as head of a word and with separators", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  false,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-_def-_ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-_def-_ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = ":@$&()/"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".abc-~!-def-#-ghi-%-jk-lm-no-?")
+		})
+
+		t.Run("convert with starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc-456def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc-456def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.KebabCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc-123def")
+		})
+	})
+
+	t.Run("non-alphabets as tail of a word and with separators", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  true,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc_-def_-ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc_-def_-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = ":@$&()/"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".-abc~!-def#-ghi%-jk-lm-no-?")
+		})
+
+		t.Run("convert with starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc456-def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc456-def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.KebabCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc123-def")
+		})
+	})
+
+	t.Run("non-alphabets as a word and with separators", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  true,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-_-def-_-ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-_-def-_-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = ":@$&()/"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".-abc-~!-def-#-ghi-%-jk-lm-no-?")
+		})
+
+		t.Run("convert with starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.KebabCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc-123-def")
+		})
+	})
+
+	t.Run("non-alphabets as part of a word and with separators", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  false,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = ":@$&()/"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".abc~!-def#-ghi%-jk-lm-no-?")
+		})
+
+		t.Run("convert with starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc456def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc456def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.KebabCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc123def")
+		})
+	})
+
+	t.Run("non-alphabets as head of a word and with kept characters", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  false,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-_def-_ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-_def-_ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc-456def")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc-456def")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = ".~!#%?"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".abc-~!-def-#-ghi-%-jk-lm-no-?")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
+
+	t.Run("non-alphabets as tail of a word and with kept characters", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  true,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc_-def_-ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc_-def_-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc456-def")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc456-def")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = ".~!#%?"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".-abc~!-def#-ghi%-jk-lm-no-?")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			t.Skip()
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
+
+	t.Run("non-alphabets as a word and with separators", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  true,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-_-def-_-ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-_-def-_-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = ":@$&()/"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".-abc-~!-def-#-ghi-%-jk-lm-no-?")
+		})
+
+		t.Run("convert with starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.KebabCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc-123-def")
+		})
+	})
+
+	t.Run("non-alphabets as part of a word and with separators", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  false,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "_"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "-"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+
+			opts.Separators = "_"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = ":@$&()/"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".abc~!-def#-ghi%-jk-lm-no-?")
+		})
+
+		t.Run("convert with starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc456def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc456def")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+
+		t.Run("alphabets and numbers in separators are no effect", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-b2"
+			result := stringcase.KebabCaseWithOptions("abc123def", opts)
+			assert.Equal(t, result, "abc123def")
+		})
+	})
+
+	t.Run("non-alphabets as head of a word and with kept characters", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  false,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Separators = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-_def-_ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-_def-_ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456def-g-89hi-jkl-mn-12")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc-456def")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc-456def")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = ".~!#%?"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".abc-~!-def-#-ghi-%-jk-lm-no-?")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
+
+	t.Run("non-alphabets as tail of a word and with kept characters", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  true,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc_-def_-ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc_-def_-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456-def-g89-hi-jkl-mn12")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc456-def")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc456-def")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = ".~!#%?"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".-abc~!-def#-ghi%-jk-lm-no-?")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
+
+	t.Run("non-alphabets as a word and with kept characters", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: true,
+			SeparateAfterNonAlphabets:  true,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-_-def-_-ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			t.Skip()
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc_-_def_-_ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-_-def-_-ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc---def---ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc-123-456-def-g-89-hi-jkl-mn-12")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123-abc-456-def")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = ".~!#%?"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".-abc-~!-def-#-ghi-%-jk-lm-no-?")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
+
+	t.Run("non-alphabets as part of a word and with kept characters", func(t *testing.T) {
+		origOpts := stringcase.Options{
+			SeparateBeforeNonAlphabets: false,
+			SeparateAfterNonAlphabets:  false,
+		}
+
+		t.Run("convert camelCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert PascalCase", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
+			assert.Equal(t, result, "abc-def-gh-ijk")
+		})
+
+		t.Run("convert snake_case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("abc_def_ghi", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+		})
+
+		t.Run("convert kebab-case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc-def-ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert Train-Case", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
+			assert.Equal(t, result, "abc--def--ghi")
+		})
+
+		t.Run("convert MACRO_CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "_"
+			result = stringcase.KebabCaseWithOptions("ABC_DEF_GHI", opts)
+			assert.Equal(t, result, "abc_def_ghi")
+		})
+
+		t.Run("convert COBOL-CASE", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "abc-def-ghi")
+		})
+
+		t.Run("convert with keeping digits", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "_"
+			result := stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+
+			opts.Keep = "-"
+			result = stringcase.KebabCaseWithOptions("abc123-456defG89HIJklMN12", opts)
+			assert.Equal(t, result, "abc123-456def-g89hi-jkl-mn12")
+		})
+
+		t.Run("convert when starting with digit", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-"
+			result := stringcase.KebabCaseWithOptions("123abc456def", opts)
+			assert.Equal(t, result, "123abc456def")
+
+			result = stringcase.KebabCaseWithOptions("123ABC456DEF", opts)
+			assert.Equal(t, result, "123abc456def")
+		})
+
+		t.Run("convert with symbols as separators", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = ".~!#%?"
+			result := stringcase.KebabCaseWithOptions(":.abc~!@def#$ghi%&jk(lm)no/?", opts)
+			assert.Equal(t, result, ".abc~!-def#-ghi%-jk-lm-no-?")
+		})
+
+		t.Run("convert an empty string", func(t *testing.T) {
+			opts := origOpts
+			opts.Keep = "-_"
+			result := stringcase.KebabCaseWithOptions("", opts)
+			assert.Equal(t, result, "")
+		})
+	})
 }
