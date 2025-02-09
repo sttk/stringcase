@@ -8,197 +8,118 @@ import (
 	"strings"
 )
 
-// Converts a string to cobol case.
+// CobolCaseWithOptions converts the input string to cobol case with the
+// specified options.
+func CobolCaseWithOptions(input string, opts Options) string {
+	result := make([]rune, 0, len(input)+len(input)/2)
+
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeptMark
+		ChIsOther
+	)
+	var flag uint8 = ChIsFirstOfStr
+
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
+			if flag == ChIsFirstOfStr {
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
+			} else if flag == ChIsNextOfUpper || flag == ChIsNextOfContdUpper ||
+				(!opts.SeparateAfterNonAlphabets && flag == ChIsNextOfKeptMark) {
+				result = append(result, ch)
+				flag = ChIsNextOfContdUpper
+			} else {
+				result = append(result, '-', ch)
+				flag = ChIsNextOfUpper
+			}
+		} else if isAsciiLowerCase(ch) {
+			if flag == ChIsNextOfContdUpper {
+				n := len(result)
+				prev := result[n-1]
+				result[n-1] = '-'
+				result = append(result, prev, toAsciiUpperCase(ch))
+			} else if flag == ChIsNextOfSepMark ||
+				(opts.SeparateAfterNonAlphabets && flag == ChIsNextOfKeptMark) {
+				result = append(result, '-', toAsciiUpperCase(ch))
+			} else {
+				result = append(result, toAsciiUpperCase(ch))
+			}
+			flag = ChIsOther
+		} else {
+			isKeptChar := false
+			if isAsciiDigit(ch) {
+				isKeptChar = true
+			} else if len(opts.Separators) > 0 {
+				if !strings.ContainsRune(opts.Separators, ch) {
+					isKeptChar = true
+				}
+			} else if len(opts.Keep) > 0 {
+				if strings.ContainsRune(opts.Keep, ch) {
+					isKeptChar = true
+				}
+			}
+
+			if isKeptChar {
+				if opts.SeparateBeforeNonAlphabets {
+					if flag == ChIsFirstOfStr || flag == ChIsNextOfKeptMark {
+						result = append(result, ch)
+					} else {
+						result = append(result, '-', ch)
+					}
+				} else {
+					if flag != ChIsNextOfSepMark {
+						result = append(result, ch)
+					} else {
+						result = append(result, '-', ch)
+					}
+				}
+				flag = ChIsNextOfKeptMark
+			} else {
+				if flag != ChIsFirstOfStr {
+					flag = ChIsNextOfSepMark
+				}
+			}
+		}
+	}
+
+	return string(result)
+}
+
+// CobolCase converts the input string to cobol case.
 //
-// This function takes a string as its argument, then returns a string of which
-// the case style is cobol case.
-//
-// This function targets the upper and lower cases of ASCII alphabets for
-// capitalization, and all characters except ASCII alphabets and ASCII numbers
-// are replaced to hyphens as word separators.
+// It treats the end of a sequence of non-alphabetical characters as a
+// word boundary, but not the beginning.
 func CobolCase(input string) string {
-	result := make([]rune, 0, len(input)+len(input)/2)
-
-	const (
-		ChIsFirstOfStr = iota
-		ChIsNextOfUpper
-		ChIsNextOfContdUpper
-		ChIsNextOfSepMark
-		ChIsNextOfKeepedMark
-		ChIsOther
-	)
-	var flag uint8 = ChIsFirstOfStr
-
-	for _, ch := range input {
-		if isAsciiUpperCase(ch) {
-			switch flag {
-			case ChIsFirstOfStr:
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			case ChIsNextOfUpper, ChIsNextOfContdUpper:
-				result = append(result, ch)
-				flag = ChIsNextOfContdUpper
-			default:
-				result = append(result, '-')
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			}
-		} else if isAsciiLowerCase(ch) {
-			switch flag {
-			case ChIsNextOfContdUpper:
-				n := len(result)
-				prev := result[n-1]
-				result[n-1] = '-'
-				result = append(result, prev)
-			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
-				result = append(result, '-')
-			}
-			result = append(result, toAsciiUpperCase(ch))
-			flag = ChIsOther
-		} else if isAsciiDigit(ch) {
-			if flag == ChIsNextOfSepMark {
-				result = append(result, '-')
-			}
-			result = append(result, ch)
-			flag = ChIsNextOfKeepedMark
-		} else {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfSepMark
-			}
-		}
-	}
-
-	return string(result)
+	return CobolCaseWithOptions(input, Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+	})
 }
 
-// Converts a string to cobol case using the specified characters as
-// separators.
+// CobolCaseWithSep converts the input string to cobol case with the
+// specified separator characters.
 //
-// This function takes a string as its argument, then returns a string of which
-// the case style is cobol case.
-//
-// This function targets only the upper and lower cases of ASCII alphabets for
-// capitalization, and the characters specified as the second argument of this
-// function are regarded as word separators and are replaced to hyphens.
-func CobolCaseWithSep(input, seps string) string {
-	result := make([]rune, 0, len(input)+len(input)/2)
-
-	const (
-		ChIsFirstOfStr = iota
-		ChIsNextOfUpper
-		ChIsNextOfContdUpper
-		ChIsNextOfSepMark
-		ChIsNextOfKeepedMark
-		ChIsOther
-	)
-	var flag uint8 = ChIsFirstOfStr
-
-	for _, ch := range input {
-		if isAsciiUpperCase(ch) {
-			switch flag {
-			case ChIsFirstOfStr:
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			case ChIsNextOfUpper, ChIsNextOfContdUpper:
-				result = append(result, ch)
-				flag = ChIsNextOfContdUpper
-			default:
-				result = append(result, '-', ch)
-				flag = ChIsNextOfUpper
-			}
-		} else if isAsciiLowerCase(ch) {
-			switch flag {
-			case ChIsNextOfContdUpper:
-				n := len(result)
-				prev := result[n-1]
-				result[n-1] = '-'
-				result = append(result, prev, toAsciiUpperCase(ch))
-			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
-				result = append(result, '-', toAsciiUpperCase(ch))
-			default:
-				result = append(result, toAsciiUpperCase(ch))
-			}
-			flag = ChIsOther
-		} else if isAsciiDigit(ch) || !strings.ContainsRune(seps, ch) {
-			switch flag {
-			case ChIsNextOfSepMark:
-				result = append(result, '-', ch)
-			default:
-				result = append(result, ch)
-			}
-			flag = ChIsNextOfKeepedMark
-		} else {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfSepMark
-			}
-		}
-	}
-
-	return string(result)
+// Deprecated: Should use CobolCaseWithOptions instead
+func CobolCaseWithSep(input string, seps string) string {
+	return CobolCaseWithOptions(input, Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Separators:                 seps,
+	})
 }
 
-// Converts a string to cobol case using characters other than the specified
-// characters as separators.
+// CobolCaseWithKeep converts the input string to cobol case with the
+// specified characters to be kept.
 //
-// This function takes a string as its argument, then returns a string of which
-// the case style is cobol case.
-//
-// This function targets only the upper and lower cases of ASCII alphabets for
-// capitalization, and the characters other than the specified characters as
-// the second argument of this function are regarded as word separators and
-// are replaced to hyphens.
-func CobolCaseWithKeep(input, keeped string) string {
-	result := make([]rune, 0, len(input)+len(input)/2)
-
-	const (
-		ChIsFirstOfStr = iota
-		ChIsNextOfUpper
-		ChIsNextOfContdUpper
-		ChIsNextOfSepMark
-		ChIsNextOfKeepedMark
-		ChIsOther
-	)
-	var flag uint8 = ChIsFirstOfStr
-
-	for _, ch := range input {
-		if isAsciiUpperCase(ch) {
-			switch flag {
-			case ChIsFirstOfStr:
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			case ChIsNextOfUpper, ChIsNextOfContdUpper:
-				result = append(result, ch)
-				flag = ChIsNextOfContdUpper
-			default:
-				result = append(result, '-')
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			}
-		} else if isAsciiLowerCase(ch) {
-			switch flag {
-			case ChIsNextOfContdUpper:
-				n := len(result)
-				prev := result[n-1]
-				result[n-1] = '-'
-				result = append(result, prev, toAsciiUpperCase(ch))
-			case ChIsNextOfSepMark, ChIsNextOfKeepedMark:
-				result = append(result, '-', toAsciiUpperCase(ch))
-			default:
-				result = append(result, toAsciiUpperCase(ch))
-			}
-			flag = ChIsOther
-		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
-			if flag == ChIsNextOfSepMark {
-				result = append(result, '-')
-			}
-			result = append(result, ch)
-			flag = ChIsNextOfKeepedMark
-		} else {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfSepMark
-			}
-		}
-	}
-
-	return string(result)
+// Deprecated: Should use CobolCaseWithOptions instead
+func CobolCaseWithKeep(input string, kept string) string {
+	return CobolCaseWithOptions(input, Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Keep:                       kept,
+	})
 }

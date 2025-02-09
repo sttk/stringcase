@@ -166,6 +166,125 @@ func BenchmarkTrainCase_withKeep(b *testing.B) {
 	}
 }
 
+// cobol case with options
+
+func BenchmarkCobolCase_nonAlphabetsAsHead(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  false,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsTail(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsWord(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  true,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsPart(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  false,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsHead_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  false,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsTail_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsWord_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  true,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsPart_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  false,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsHead_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  false,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsTail_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsWord_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  true,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkCobolCase_nonAlphabetsAsPart_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  false,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.CobolCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+
 // kebab case with options
 
 func BenchmarkKebabCase_nonAlphabetsAsHead(b *testing.B) {
