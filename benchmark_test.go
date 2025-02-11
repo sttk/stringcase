@@ -523,6 +523,125 @@ func BenchmarkMacroCase_nonAlphabetsAsPart_withKeep(b *testing.B) {
 	}
 }
 
+// pascal case with options
+
+func BenchmarkPascalCase_nonAlphabetsAsHead(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  false,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsTail(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsWord(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  true,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsPart(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  false,
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsHead_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  false,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsTail_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsWord_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  true,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsPart_withSeparators(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  false,
+		Separators:                 "-",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsHead_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  false,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsTail_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsWord_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: true,
+		SeparateAfterNonAlphabets:  true,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+func BenchmarkPascalCase_nonAlphabetsAsPart_withKeep(b *testing.B) {
+	opts := stringcase.Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  false,
+		Keep:                       "%",
+	}
+	for i := 0; i < b.N; i++ {
+		stringcase.PascalCaseWithOptions("foo-bar100%baz", opts)
+	}
+}
+
 // snake case with options
 
 func BenchmarkSnakeCase_nonAlphabetsAsHead(b *testing.B) {
