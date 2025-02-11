@@ -14,7 +14,7 @@ Essentially, these functions only target ASCII uppercase and lowercase letters f
 All characters other than ASCII uppercase and lowercase letters and ASCII numbers are removed as word separators.
 
 If you want to use some symbols as separators, specify those symbols in the `Separators` field of `Options` struct and use the `〜CaseWithOptions` function for the desired case.
-If you want to retain certain some symbols and use everything else as separators, specify those symbols in `Keep` field of `Options` struct and use the `〜CaseWithOptions` function for the desired case.
+If you want to retain certain symbols and use everything else as separators, specify those symbols in `Keep` field of `Options` struct and use the `〜CaseWithOptions` function for the desired case.
 
 When converting cases, there are several possible ways to handle numbers and symbols that remain in the converted string. This library supports the following four types of behavior:
 
