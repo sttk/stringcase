@@ -13,7 +13,7 @@ package stringcase
 // boundary. The Separators field specifies the set of characters to be
 // treated as word separators and removed from the result string. The
 // Keep field specifies the set of characters not to be treated as word
-// separators wnd kept in the result string.
+// separators and kept in the result string.
 //
 // Alphanumeric characters specified in Separators and Keep are ignored.
 // If both Separators and Keep are specified, Separators takes precedence
