@@ -900,8 +900,8 @@ func TestPascalCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "AbcDefGhi")
 
 			opts.Keep = "-"
-			result = stringcase.TrainCaseWithOptions("ABC-DEF-GHI", opts)
-			assert.Equal(t, result, "Abc--def--ghi")
+			result = stringcase.PascalCaseWithOptions("ABC-DEF-GHI", opts)
+			assert.Equal(t, result, "Abc-def-ghi")
 		})
 
 		t.Run("convert with keeping digits", func(t *testing.T) {
