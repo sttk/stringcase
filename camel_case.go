@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-// CamelCaseWithOptions converts the input string to pascal case with the
+// CamelCaseWithOptions converts the input string to camel case with the
 // specified options.
 func CamelCaseWithOptions(input string, opts Options) string {
 	result := make([]rune, 0, len(input))
@@ -80,7 +80,7 @@ func CamelCaseWithOptions(input string, opts Options) string {
 	return string(result)
 }
 
-// CamelCase converts the input string to pascal case.
+// CamelCase converts the input string to camel case.
 //
 // It treats the end of a sequence of non-alphabetical characters as a
 // word boundary, but not the beginning.
@@ -91,7 +91,7 @@ func CamelCase(input string) string {
 	})
 }
 
-// CamelCaseWithSep converts the input string to pascal case with the
+// CamelCaseWithSep converts the input string to camel case with the
 // specified separator characters.
 //
 // Deprecated: Should use CamelCaseWithOptions instead
@@ -103,7 +103,7 @@ func CamelCaseWithSep(input string, seps string) string {
 	})
 }
 
-// CamelCaseWithKeep converts the input string to pascal case with the
+// CamelCaseWithKeep converts the input string to camel case with the
 // specified characters to be kept.
 //
 // Deprecated: Should use CamelCaseWithOptions instead
