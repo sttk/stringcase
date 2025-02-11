@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Takayuki Sato. All Rights Reserved.
+// Copyright (C) 2024-2025 Takayuki Sato. All Rights Reserved.
 // This program is free software under MIT License.
 // See the file LICENSE in this distribution for more details.
 
@@ -8,194 +8,109 @@ import (
 	"strings"
 )
 
-// Converts a string to camel case.
+// CamelCaseWithOptions converts the input string to pascal case with the
+// specified options.
+func CamelCaseWithOptions(input string, opts Options) string {
+	result := make([]rune, 0, len(input))
+
+	const (
+		ChIsFirstOfStr = iota
+		ChIsNextOfUpper
+		ChIsNextOfContdUpper
+		ChIsNextOfSepMark
+		ChIsNextOfKeptMark
+		ChIsOther
+	)
+	var flag uint8 = ChIsFirstOfStr
+
+	for _, ch := range input {
+		if isAsciiUpperCase(ch) {
+			if flag == ChIsFirstOfStr {
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfUpper
+			} else if flag == ChIsNextOfUpper || flag == ChIsNextOfContdUpper ||
+				(!opts.SeparateAfterNonAlphabets && flag == ChIsNextOfKeptMark) {
+				result = append(result, toAsciiLowerCase(ch))
+				flag = ChIsNextOfContdUpper
+			} else {
+				result = append(result, ch)
+				flag = ChIsNextOfUpper
+			}
+		} else if isAsciiLowerCase(ch) {
+			if flag == ChIsNextOfContdUpper {
+				n := len(result)
+				prev := result[n-1]
+				if isAsciiLowerCase(prev) {
+					prev = toAsciiUpperCase(prev)
+				}
+				result[n-1] = prev
+				result = append(result, ch)
+			} else if flag == ChIsNextOfSepMark ||
+				(opts.SeparateAfterNonAlphabets && flag == ChIsNextOfKeptMark) {
+				result = append(result, toAsciiUpperCase(ch))
+			} else {
+				result = append(result, ch)
+			}
+			flag = ChIsOther
+		} else {
+			isKeptChar := false
+			if isAsciiDigit(ch) {
+				isKeptChar = true
+			} else if len(opts.Separators) > 0 {
+				if !strings.ContainsRune(opts.Separators, ch) {
+					isKeptChar = true
+				}
+			} else if len(opts.Keep) > 0 {
+				if strings.ContainsRune(opts.Keep, ch) {
+					isKeptChar = true
+				}
+			}
+
+			if isKeptChar {
+				result = append(result, ch)
+				flag = ChIsNextOfKeptMark
+			} else {
+				if flag != ChIsFirstOfStr {
+					flag = ChIsNextOfSepMark
+				}
+			}
+		}
+	}
+
+	return string(result)
+}
+
+// CamelCase converts the input string to pascal case.
 //
-// This function takes a string as its argument, then returns a string of which
-// the case style is camel case.
-//
-// This function targets only the upper and lower cases of ASCII alphabets for
-// capitalization, and all characters except ASII alphabets and ASII numbers
-// are eliminated as word separators.
+// It treats the end of a sequence of non-alphabetical characters as a
+// word boundary, but not the beginning.
 func CamelCase(input string) string {
-	result := make([]rune, 0, len(input))
-
-	const (
-		ChIsFirstOfStr = iota
-		ChIsInFirstWord
-		ChIsNextOfUpper
-		ChIsNextOfMark
-		ChIsOther
-	)
-	var flag uint8 = ChIsFirstOfStr
-
-	for _, ch := range input {
-		if isAsciiUpperCase(ch) {
-			switch flag {
-			case ChIsFirstOfStr, ChIsInFirstWord:
-				result = append(result, toAsciiLowerCase(ch))
-				flag = ChIsInFirstWord
-			case ChIsNextOfUpper:
-				result = append(result, toAsciiLowerCase(ch))
-				//flag = ChIsNextOfUpper
-			default:
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			}
-		} else if isAsciiLowerCase(ch) {
-			switch flag {
-			case ChIsNextOfUpper:
-				n := len(result)
-				prev := result[n-1]
-				if isAsciiLowerCase(prev) {
-					result[n-1] = toAsciiUpperCase(prev)
-				}
-				result = append(result, ch)
-				flag = ChIsOther
-			case ChIsNextOfMark:
-				result = append(result, toAsciiUpperCase(ch))
-				flag = ChIsNextOfUpper
-			default:
-				result = append(result, ch)
-				flag = ChIsOther
-			}
-		} else if isAsciiDigit(ch) {
-			result = append(result, ch)
-			flag = ChIsNextOfMark
-		} else {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfMark
-			}
-		}
-	}
-
-	return string(result)
+	return CamelCaseWithOptions(input, Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+	})
 }
 
-// Converts a string to camel case using the specified characters as
-// separators.
+// CamelCaseWithSep converts the input string to pascal case with the
+// specified separator characters.
 //
-// This function takes a string as its argument, then returns a string of which
-// the case style is camel case.
-//
-// This function targets only the upper and lower cases of ASCII alphabets for
-// capitalization, and the characters specified as the second argument of this
-// function are regarded as word separators and are eliminated.
-func CamelCaseWithSep(input, seps string) string {
-	result := make([]rune, 0, len(input))
-
-	const (
-		ChIsFirstOfStr = iota
-		ChIsInFirstWord
-		ChIsNextOfUpper
-		ChIsNextOfMark
-		ChIsOther
-	)
-	var flag uint8 = ChIsFirstOfStr
-
-	for _, ch := range input {
-		if isAsciiUpperCase(ch) {
-			switch flag {
-			case ChIsFirstOfStr, ChIsInFirstWord:
-				result = append(result, toAsciiLowerCase(ch))
-				flag = ChIsInFirstWord
-			case ChIsNextOfUpper:
-				result = append(result, toAsciiLowerCase(ch))
-				//flag = ChIsNextOfUpper
-			default:
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			}
-		} else if isAsciiLowerCase(ch) {
-			switch flag {
-			case ChIsNextOfUpper:
-				n := len(result)
-				prev := result[n-1]
-				if isAsciiLowerCase(prev) {
-					result[n-1] = toAsciiUpperCase(prev)
-				}
-				result = append(result, ch)
-				flag = ChIsOther
-			case ChIsNextOfMark:
-				result = append(result, toAsciiUpperCase(ch))
-				flag = ChIsNextOfUpper
-			default:
-				result = append(result, ch)
-				flag = ChIsOther
-			}
-		} else if isAsciiDigit(ch) || !strings.ContainsRune(seps, ch) {
-			result = append(result, ch)
-			flag = ChIsNextOfMark
-		} else {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfMark
-			}
-		}
-	}
-
-	return string(result)
+// Deprecated: Should use CamelCaseWithOptions instead
+func CamelCaseWithSep(input string, seps string) string {
+	return CamelCaseWithOptions(input, Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Separators:                 seps,
+	})
 }
 
-// Converts a string to camel case using characters other than the specified
-// characters as separators.
+// CamelCaseWithKeep converts the input string to pascal case with the
+// specified characters to be kept.
 //
-// This function takes a string as its argument, then returns a string of which
-// the case style is camel case.
-//
-// This function targets only the upper and lower cases of ASCII alphabets for
-// capitalization, and the characters other than the specified characters as
-// the second argument of this function are regarded as word separators and
-// are eliminated.
-func CamelCaseWithKeep(input, keeped string) string {
-	result := make([]rune, 0, len(input))
-
-	const (
-		ChIsFirstOfStr = iota
-		ChIsInFirstWord
-		ChIsNextOfUpper
-		ChIsNextOfMark
-		ChIsOther
-	)
-	var flag uint8 = ChIsFirstOfStr
-
-	for _, ch := range input {
-		if isAsciiUpperCase(ch) {
-			switch flag {
-			case ChIsFirstOfStr, ChIsInFirstWord:
-				result = append(result, toAsciiLowerCase(ch))
-				flag = ChIsInFirstWord
-			case ChIsNextOfUpper:
-				result = append(result, toAsciiLowerCase(ch))
-				//flag = ChIsNextOfUpper
-			default:
-				result = append(result, ch)
-				flag = ChIsNextOfUpper
-			}
-		} else if isAsciiLowerCase(ch) {
-			switch flag {
-			case ChIsNextOfUpper:
-				n := len(result)
-				prev := result[n-1]
-				if isAsciiLowerCase(prev) {
-					result[n-1] = toAsciiUpperCase(prev)
-				}
-				result = append(result, ch)
-				flag = ChIsOther
-			case ChIsNextOfMark:
-				result = append(result, toAsciiUpperCase(ch))
-				flag = ChIsNextOfUpper
-			default:
-				result = append(result, ch)
-				flag = ChIsOther
-			}
-		} else if isAsciiDigit(ch) || strings.ContainsRune(keeped, ch) {
-			result = append(result, ch)
-			flag = ChIsNextOfMark
-		} else {
-			if flag != ChIsFirstOfStr {
-				flag = ChIsNextOfMark
-			}
-		}
-	}
-
-	return string(result)
+// Deprecated: Should use CamelCaseWithOptions instead
+func CamelCaseWithKeep(input string, kept string) string {
+	return CamelCaseWithOptions(input, Options{
+		SeparateBeforeNonAlphabets: false,
+		SeparateAfterNonAlphabets:  true,
+		Keep:                       kept,
+	})
 }
