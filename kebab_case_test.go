@@ -824,14 +824,14 @@ func TestKebabCaseWithOptions(t *testing.T) {
 
 		t.Run("convert camelCase", func(t *testing.T) {
 			opts := origOpts
-			opts.Separators = "-_"
+			opts.Keep = "-_"
 			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
 			assert.Equal(t, result, "abc-def-gh-ijk")
 		})
 
 		t.Run("convert PascalCase", func(t *testing.T) {
 			opts := origOpts
-			opts.Separators = "-_"
+			opts.Keep = "-_"
 			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
 			assert.Equal(t, result, "abc-def-gh-ijk")
 		})
@@ -1285,14 +1285,14 @@ func TestKebabCaseWithOptions(t *testing.T) {
 
 		t.Run("convert camelCase", func(t *testing.T) {
 			opts := origOpts
-			opts.Separators = "-_"
+			opts.Keep = "-_"
 			result := stringcase.KebabCaseWithOptions("abcDefGHIjk", opts)
 			assert.Equal(t, result, "abc-def-gh-ijk")
 		})
 
 		t.Run("convert PascalCase", func(t *testing.T) {
 			opts := origOpts
-			opts.Separators = "-_"
+			opts.Keep = "-_"
 			result := stringcase.KebabCaseWithOptions("AbcDefGHIjk", opts)
 			assert.Equal(t, result, "abc-def-gh-ijk")
 		})
