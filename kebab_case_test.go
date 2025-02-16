@@ -1033,7 +1033,6 @@ func TestKebabCaseWithOptions(t *testing.T) {
 		})
 
 		t.Run("convert an empty string", func(t *testing.T) {
-			t.Skip()
 			opts := origOpts
 			opts.Keep = "-_"
 			result := stringcase.KebabCaseWithOptions("", opts)
@@ -1544,15 +1543,14 @@ func TestKebabCaseWithOptions(t *testing.T) {
 		})
 
 		t.Run("convert Train-Case", func(t *testing.T) {
-			t.Skip()
 			opts := origOpts
 			opts.Keep = "_"
 			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
-			assert.Equal(t, result, "abc_def_ghi")
+			assert.Equal(t, result, "abc-def-ghi")
 
 			opts.Keep = "-"
 			result = stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
-			assert.Equal(t, result, "abc_-_def_-_ghi")
+			assert.Equal(t, result, "abc---def---ghi")
 		})
 
 		t.Run("convert MACRO_CASE", func(t *testing.T) {
