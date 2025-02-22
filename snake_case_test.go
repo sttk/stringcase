@@ -29,7 +29,7 @@ func TestSnakeCase(t *testing.T) {
 		assert.Equal(t, result, "abc_def_ghi")
 	})
 
-	t.Run("convert Trail-Case", func(t *testing.T) {
+	t.Run("convert Train-Case", func(t *testing.T) {
 		result := stringcase.SnakeCase("Abc-Def-Ghi")
 		assert.Equal(t, result, "abc_def_ghi")
 	})
@@ -98,7 +98,7 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc_def_ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.SnakeCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc_def_ghi")
 		})
@@ -166,7 +166,7 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc_def_ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.SnakeCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc_def_ghi")
 		})
@@ -234,7 +234,7 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc_def_ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.SnakeCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc_def_ghi")
 		})
@@ -302,7 +302,7 @@ func TestSnakeCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc_def_ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.SnakeCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc_def_ghi")
 		})
