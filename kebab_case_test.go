@@ -29,7 +29,7 @@ func TestKebabCase(t *testing.T) {
 		assert.Equal(t, result, "abc-def-ghi")
 	})
 
-	t.Run("convert Trail-Case", func(t *testing.T) {
+	t.Run("convert Train-Case", func(t *testing.T) {
 		result := stringcase.KebabCase("Abc-Def-Ghi")
 		assert.Equal(t, result, "abc-def-ghi")
 	})
@@ -98,7 +98,7 @@ func TestKebabCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc-def-ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc-def-ghi")
 		})
@@ -166,7 +166,7 @@ func TestKebabCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc-def-ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc-def-ghi")
 		})
@@ -234,7 +234,7 @@ func TestKebabCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc-def-ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc-def-ghi")
 		})
@@ -302,7 +302,7 @@ func TestKebabCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "abc-def-ghi")
 		})
 
-		t.Run("convert Trail-Case", func(t *testing.T) {
+		t.Run("convert Train-Case", func(t *testing.T) {
 			result := stringcase.KebabCaseWithOptions("Abc-Def-Ghi", opts)
 			assert.Equal(t, result, "abc-def-ghi")
 		})
