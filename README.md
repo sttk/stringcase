@@ -50,34 +50,44 @@ This library supports Go 1.18 or later.
 
 ### Actual test results for each Go version:
 
-```
-% gvm-fav                   
+```sh
+% gvm-fav
 Now using version go1.18.10
 go version go1.18.10 darwin/amd64
-ok  	github.com/sttk/stringcase	0.748s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.317s	coverage: 100.0% of statements
 
 Now using version go1.19.13
 go version go1.19.13 darwin/amd64
-ok  	github.com/sttk/stringcase	0.366s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.361s	coverage: 100.0% of statements
 
 Now using version go1.20.14
 go version go1.20.14 darwin/amd64
-ok  	github.com/sttk/stringcase	0.377s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.320s	coverage: 100.0% of statements
 
 Now using version go1.21.13
 go version go1.21.13 darwin/amd64
-ok  	github.com/sttk/stringcase	0.372s	coverage: 100.0% of statements
+ok  	github.com/sttk/stringcase	0.332s	coverage: 100.0% of statements
 
-Now using version go1.22.10
-go version go1.22.10 darwin/amd64
-ok  	github.com/sttk/stringcase	0.395s	coverage: 100.0% of statements
+Now using version go1.22.12
+go version go1.22.12 darwin/amd64
+ok  	github.com/sttk/stringcase	0.355s	coverage: 100.0% of statements
 
-Now using version go1.23.6
-go version go1.23.6 darwin/amd64
-ok  	github.com/sttk/stringcase	0.379s	coverage: 100.0% of statements
+Now using version go1.23.10
+go version go1.23.10 darwin/amd64
+ok  	github.com/sttk/stringcase	0.361s	coverage: 100.0% of statements
 
-Back to go1.23.6
-Now using version go1.23.6
+Now using version go1.24.6
+go version go1.24.6 darwin/amd64
+go: downloading github.com/stretchr/testify v1.8.4
+ok  	github.com/sttk/stringcase	0.370s	coverage: 100.0% of statements
+
+Now using version go1.25.0
+go version go1.25.0 darwin/amd64
+go: downloading github.com/stretchr/testify v1.8.4
+ok  	github.com/sttk/stringcase	0.349s	coverage: 100.0% of statements
+
+Back to go1.25.0
+Now using version go1.25.0
 ```
 
 ## License
@@ -92,6 +102,6 @@ See the file LICENSE in this distribution for more details.
 [pkg-dev-img]: https://pkg.go.dev/badge/github.com/sttk/stringcase.svg
 [pkg-dev-url]: https://pkg.go.dev/github.com/sttk/stringcase
 [ci-img]: https://github.com/sttk/stringcase/actions/workflows/go.yml/badge.svg?branch=main
-[ci-url]: https://github.com/sttk/stringcase/actions
+[ci-url]: https://github.com/sttk/stringcase/actions?query=branch%3Amain
 [mit-img]: https://img.shields.io/badge/license-MIT-green.svg
 [mit-url]: https://opensource.org/licenses/MIT
