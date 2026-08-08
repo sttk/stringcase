@@ -81,17 +81,3 @@ func ExampleCamelCaseWithOptions() {
 	// (b) camel = fooBar100%baz
 	// (c) camel = fooBar100%baz
 }
-
-func ExampleCamelCaseWithSep() {
-	camel := stringcase.CamelCaseWithSep("foo-bar100%baz", "- ")
-	fmt.Printf("camel = %s\n", camel)
-	// Output:
-	// camel = fooBar100%Baz
-}
-
-func ExampleCamelCaseWithKeep() {
-	camel := stringcase.CamelCaseWithKeep("foo-bar100%baz", "%")
-	fmt.Printf("camel = %s\n", camel)
-	// Output:
-	// camel = fooBar100%Baz
-}

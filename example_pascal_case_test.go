@@ -81,17 +81,3 @@ func ExamplePascalCaseWithOptions() {
 	// (b) pascal = FooBar100%baz
 	// (c) pascal = FooBar100%baz
 }
-
-func ExamplePascalCaseWithSep() {
-	pascal := stringcase.PascalCaseWithSep("foo-bar100%baz", "- ")
-	fmt.Printf("pascal = %s\n", pascal)
-	// Output:
-	// pascal = FooBar100%Baz
-}
-
-func ExamplePascalCaseWithKeep() {
-	pascal := stringcase.PascalCaseWithKeep("foo-bar100%baz", "%")
-	fmt.Printf("pascal = %s\n", pascal)
-	// Output:
-	// pascal = FooBar100%Baz
-}

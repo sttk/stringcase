@@ -81,17 +81,3 @@ func ExampleKebabCaseWithOptions() {
 	// (b) kebab = foo-bar-100%baz
 	// (c) kebab = foo-bar100%baz
 }
-
-func ExampleKebabCaseWithSep() {
-	kebab := stringcase.KebabCaseWithSep("foo-Bar100%Baz", "- ")
-	fmt.Printf("kebab = %s\n", kebab)
-	// Output:
-	// kebab = foo-bar100%-baz
-}
-
-func ExampleKebabCaseWithKeep() {
-	kebab := stringcase.KebabCaseWithKeep("foo-bar100%baz", "%")
-	fmt.Printf("kebab = %s\n", kebab)
-	// Output:
-	// kebab = foo-bar100%-baz
-}

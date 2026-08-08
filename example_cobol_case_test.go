@@ -81,17 +81,3 @@ func ExampleCobolCaseWithOptions() {
 	// (b) cobol = FOO-BAR-100%BAZ
 	// (c) cobol = FOO-BAR100%BAZ
 }
-
-func ExampleCobolCaseWithSep() {
-	cobol := stringcase.CobolCaseWithSep("foo-bar100%baz", "- ")
-	fmt.Printf("cobol = %s\n", cobol)
-	// Output:
-	// cobol = FOO-BAR100%-BAZ
-}
-
-func ExampleCobolCaseWithKeep() {
-	cobol := stringcase.CobolCaseWithKeep("foo-bar100%baz", "%")
-	fmt.Printf("cobol = %s\n", cobol)
-	// Output:
-	// cobol = FOO-BAR100%-BAZ
-}

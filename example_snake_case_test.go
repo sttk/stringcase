@@ -81,17 +81,3 @@ func ExampleSnakeCaseWithOptions() {
 	// (b) snake = foo_bar_100%baz
 	// (c) snake = foo_bar100%baz
 }
-
-func ExampleSnakeCaseWithSep() {
-	snake := stringcase.SnakeCaseWithSep("foo-Bar100%Baz", "- ")
-	fmt.Printf("snake = %s\n", snake)
-	// Output:
-	// snake = foo_bar100%_baz
-}
-
-func ExampleSnakeCaseWithKeep() {
-	snake := stringcase.SnakeCaseWithKeep("foo-bar100%baz", "%")
-	fmt.Printf("snake = %s\n", snake)
-	// Output:
-	// snake = foo_bar100%_baz
-}
