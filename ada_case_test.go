@@ -1031,15 +1031,15 @@ func TestAdaCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "Abc_ _Def_ _Ghi")
 		})
 
-		t.Run("convert Train-Case", func(t *testing.T) {
+		t.Run("convert Ada_Case", func(t *testing.T) {
 			opts := origOpts
-			opts.Keep = "_"
-			result := stringcase.AdaCaseWithOptions("Abc-Def-Ghi", opts)
+			opts.Keep = "-"
+			result := stringcase.AdaCaseWithOptions("Abc_Def_Ghi", opts)
 			assert.Equal(t, result, "Abc_Def_Ghi")
 
-			opts.Keep = "-"
-			result = stringcase.AdaCaseWithOptions("Abc-Def-Ghi", opts)
-			assert.Equal(t, result, "Abc_-_Def_-_Ghi")
+			opts.Keep = "_"
+			result = stringcase.AdaCaseWithOptions("Abc_Def_Ghi", opts)
+			assert.Equal(t, result, "Abc___Def___Ghi")
 		})
 
 		t.Run("convert MACRO_CASE", func(t *testing.T) {
@@ -1167,15 +1167,15 @@ func TestAdaCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "Abc _Def _Ghi")
 		})
 
-		t.Run("convert Train-Case", func(t *testing.T) {
+		t.Run("convert Ada_Case", func(t *testing.T) {
 			opts := origOpts
-			opts.Keep = "_"
-			result := stringcase.AdaCaseWithOptions("Abc-Def-Ghi", opts)
+			opts.Keep = "-"
+			result := stringcase.AdaCaseWithOptions("Abc_Def_Ghi", opts)
 			assert.Equal(t, result, "Abc_Def_Ghi")
 
-			opts.Keep = "-"
-			result = stringcase.AdaCaseWithOptions("Abc-Def-Ghi", opts)
-			assert.Equal(t, result, "Abc-_Def-_Ghi")
+			opts.Keep = "_"
+			result = stringcase.AdaCaseWithOptions("Abc_Def_Ghi", opts)
+			assert.Equal(t, result, "Abc__Def__Ghi")
 		})
 
 		t.Run("convert MACRO_CASE", func(t *testing.T) {
@@ -1440,7 +1440,7 @@ func TestAdaCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "Abc _Def _Ghi")
 		})
 
-		t.Run("convert Ada-Case", func(t *testing.T) {
+		t.Run("convert Ada_Case", func(t *testing.T) {
 			opts := origOpts
 			opts.Keep = "-"
 			result := stringcase.AdaCaseWithOptions("Abc_Def_Ghi", opts)
