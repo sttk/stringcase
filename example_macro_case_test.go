@@ -81,17 +81,3 @@ func ExampleMacroCaseWithOptions() {
 	// (b) macro = FOO_BAR_100%BAZ
 	// (c) macro = FOO_BAR100%BAZ
 }
-
-func ExampleMacroCaseWithSep() {
-	macro := stringcase.MacroCaseWithSep("foo-bar100%baz", "- ")
-	fmt.Printf("macro = %s\n", macro)
-	// Output:
-	// macro = FOO_BAR100%_BAZ
-}
-
-func ExampleMacroCaseWithKeep() {
-	macro := stringcase.MacroCaseWithKeep("foo-bar100%baz", "%")
-	fmt.Printf("macro = %s\n", macro)
-	// Output:
-	// macro = FOO_BAR100%_BAZ
-}

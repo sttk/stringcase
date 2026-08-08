@@ -90,27 +90,3 @@ func CamelCase(input string) string {
 		SeparateAfterNonAlphabets:  true,
 	})
 }
-
-// CamelCaseWithSep converts the input string to camel case with the
-// specified separator characters.
-//
-// Deprecated: Should use CamelCaseWithOptions instead
-func CamelCaseWithSep(input string, seps string) string {
-	return CamelCaseWithOptions(input, Options{
-		SeparateBeforeNonAlphabets: false,
-		SeparateAfterNonAlphabets:  true,
-		Separators:                 seps,
-	})
-}
-
-// CamelCaseWithKeep converts the input string to camel case with the
-// specified characters to be kept.
-//
-// Deprecated: Should use CamelCaseWithOptions instead
-func CamelCaseWithKeep(input string, kept string) string {
-	return CamelCaseWithOptions(input, Options{
-		SeparateBeforeNonAlphabets: false,
-		SeparateAfterNonAlphabets:  true,
-		Keep:                       kept,
-	})
-}

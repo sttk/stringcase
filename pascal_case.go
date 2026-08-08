@@ -89,27 +89,3 @@ func PascalCase(input string) string {
 		SeparateAfterNonAlphabets:  true,
 	})
 }
-
-// PascalCaseWithSep converts the input string to pascal case with the
-// specified separator characters.
-//
-// Deprecated: Should use PascalCaseWithOptions instead
-func PascalCaseWithSep(input string, seps string) string {
-	return PascalCaseWithOptions(input, Options{
-		SeparateBeforeNonAlphabets: false,
-		SeparateAfterNonAlphabets:  true,
-		Separators:                 seps,
-	})
-}
-
-// PascalCaseWithKeep converts the input string to pascal case with the
-// specified characters to be kept.
-//
-// Deprecated: Should use PascalCaseWithOptions instead
-func PascalCaseWithKeep(input string, kept string) string {
-	return PascalCaseWithOptions(input, Options{
-		SeparateBeforeNonAlphabets: false,
-		SeparateAfterNonAlphabets:  true,
-		Keep:                       kept,
-	})
-}
