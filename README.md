@@ -1,8 +1,9 @@
 # [stringcase][repo-url] [![Go Reference][pkg-dev-img]][pkg-dev-url] [![CI Status][ci-img]][ci-url] [![MIT License][mit-img]][mit-url]
 
-This library provides some functions that convert string cases between
-camelCase, COBOL-CASE, kebab-case, MACRO_CASE, PascalCase, snake_case and
-Train-Case.
+This library provides some functions that convert string cases between Ada_Case, camelCase,
+COBOL-CASE, kebab-case, MACRO_CASE, PascalCase, snake_case, Title Case, and Train-Case.
+In addition, the functions `Capitalize`, `Lowerize`, and `Upperize` are provided to convert
+string cases with a custom joiner character.
 
 Essentially, these functions only target ASCII uppercase and lowercase letters for capitalization.
 All characters other than ASCII uppercase and lowercase letters and ASCII numbers are removed as
@@ -35,12 +36,43 @@ import "github.com/sttk/stringcase"
 
 This functions contained in this library are excuted as follows:
 
-```
+```go
 func main() {
-    input := "foo-bar-baz"
-    camel := stringcase.CamelCase(input)
-    fmt.Printf("%s\n", camel)
-    // => "fooBarBaz"
+    input := "fooBar123Bar"
+    snake := stringcase.SnakeCase(input)
+    fmt.Printf("%s\n", snake)
+    // => "foo_bar123_baz"
+}
+```
+
+If you want the conversion to behave differently, use `〜CaseWithOptions`.
+
+```go
+func main() {
+    opts := stringcase.Options{
+        SeparateBeforeNonAlphabets: true,
+        SeparateAfterNonAlphabets:  true,
+    }
+    input := "fooBar123Bar"
+    snake := stringcase.SnakeCaseWithOptions(input, opts)
+    fmt.Printf("%s\n", snake)
+    // => "foo_bar_123_baz"
+}
+```
+
+You can also use the the functions `Capitalize`, `Lowerize`, and `Upperize` to convert
+strings into capitalized, lowercased, or uppercased words joined by a custom joiner character:
+
+```go
+func main() {
+    opts := stringcase.Options{
+        SeparateBeforeNonAlphabets: true,
+        SeparateAfterNonAlphabets:  true,
+    }
+    input := "fooBar123Bar"
+    output := stringcase.Capitalize(input, '.', opts)
+    fmt.Printf("%s\n", output)
+    // => "foo.bar.123.baz"
 }
 ```
 
@@ -92,7 +124,7 @@ Now using version go1.25.0
 
 ## License
 
-Copyright (C) 2024-2025 Takayuki Sato
+Copyright (C) 2024-2026 Takayuki Sato
 
 This program is free software under MIT License.<br>
 See the file LICENSE in this distribution for more details.
