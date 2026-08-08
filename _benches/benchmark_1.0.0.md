@@ -1,0 +1,129 @@
+## 1.0.0
+
+Date: 2026-08-08
+
+```
+goos: darwin
+goarch: amd64
+pkg: github.com/sttk/stringcase
+cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
+BenchmarkAdaCase-12                                         	 7345304	       156.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCamelCase-12                                       	 7456963	       141.9 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCobolCase-12                                       	 7995775	       149.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase-12                                       	 7805994	       162.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase-12                                       	 7645490	       151.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkPascalCase-12                                      	 8386516	       142.4 ns/op	      80 B/op	       2 allocs/op
+BenchmarkSnakeCase-12                                       	 7816831	       153.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase-12                                       	 7472371	       158.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase-12                                       	 7557362	       158.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsHead-12                      	 7311205	       173.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsTail-12                      	 7513458	       159.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsWord-12                      	 7259905	       164.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsPart-12                      	 7481254	       159.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsHead_withSeparators-12       	 6944893	       171.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsTail_withSeparators-12       	 6911955	       184.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsWord_withSeparators-12       	 6738918	       180.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsPart_withSeparators-12       	 7103913	       167.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsHead_withKeep-12             	 6901564	       200.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsTail_withKeep-12             	 5179052	       320.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsWord_withKeep-12             	 5684173	       181.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkAdaCase_nonAlphabetsAsPart_withKeep-12             	 6825873	       171.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsHead-12                    	 8316663	       146.1 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsTail-12                    	 8304284	       148.5 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsWord-12                    	 8255630	       145.7 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsPart-12                    	 8163580	       145.9 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsHead_withSeparators-12     	 7615987	       163.5 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsTail_withSeparators-12     	 7794230	       155.6 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsWord_withSeparators-12     	 7697654	       156.3 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsPart_withSeparators-12     	 7430890	       155.6 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsHead_withKeep-12           	 7381626	       172.4 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsTail_withKeep-12           	 7602375	       166.8 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsWord_withKeep-12           	 7574653	       157.9 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCamelCase_nonAlphabetsAsPart_withKeep-12           	 7634841	       157.1 ns/op	      80 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsHead-12                    	 7629164	       156.6 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsTail-12                    	 7906968	       160.6 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsWord-12                    	 7677169	       155.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsPart-12                    	 8047590	       149.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsHead_withSeparators-12     	 7068506	       177.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsTail_withSeparators-12     	 7253068	       165.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsWord_withSeparators-12     	 6950887	       170.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsPart_withSeparators-12     	 7626700	       158.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsHead_withKeep-12           	 6951356	       166.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsTail_withKeep-12           	 7204414	       167.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsWord_withKeep-12           	 6980656	       185.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkCobolCase_nonAlphabetsAsPart_withKeep-12           	 7190859	       168.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsHead-12                    	 7514565	       160.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsTail-12                    	 7793768	       152.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsWord-12                    	 7562912	       158.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsPart-12                    	 7786291	       154.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsHead_withSeparators-12     	 7166181	       223.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsTail_withSeparators-12     	 6835909	       167.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsWord_withSeparators-12     	 6842053	       173.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsPart_withSeparators-12     	 7254691	       164.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsHead_withKeep-12           	 7172922	       169.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsTail_withKeep-12           	 7165726	       168.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsWord_withKeep-12           	 6763952	       174.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkKebabCase_nonAlphabetsAsPart_withKeep-12           	 7327128	       162.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsHead-12                    	 7811360	       155.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsTail-12                    	 8053252	       150.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsWord-12                    	 7571035	       156.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsPart-12                    	 7878364	       154.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsHead_withSeparators-12     	 7175049	       167.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsTail_withSeparators-12     	 7206982	       163.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsWord_withSeparators-12     	 7151974	       172.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsPart_withSeparators-12     	 7332890	       166.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsHead_withKeep-12           	 7166966	       176.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsTail_withKeep-12           	 7077960	       167.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsWord_withKeep-12           	 6932560	       173.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkMacroCase_nonAlphabetsAsPart_withKeep-12           	 7172281	       163.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsHead-12                   	 8391814	       142.8 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsTail-12                   	 8248524	       143.5 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsWord-12                   	 8411018	       141.0 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsPart-12                   	 8483726	       140.2 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsHead_withSeparators-12    	 7686588	       154.9 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsTail_withSeparators-12    	 7786848	       153.6 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsWord_withSeparators-12    	 7758332	       153.1 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsPart_withSeparators-12    	 7821372	       154.1 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsHead_withKeep-12          	 7776715	       153.6 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsTail_withKeep-12          	 7745362	       155.0 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsWord_withKeep-12          	 7435881	       156.5 ns/op	      80 B/op	       2 allocs/op
+BenchmarkPascalCase_nonAlphabetsAsPart_withKeep-12          	 7735880	       157.1 ns/op	      80 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsHead-12                    	 7466437	       167.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsTail-12                    	 7731841	       155.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsWord-12                    	 7530990	       160.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsPart-12                    	 7641679	       165.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsHead_withSeparators-12     	 7159362	       166.6 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsTail_withSeparators-12     	 7141399	       169.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsWord_withSeparators-12     	 6982264	       171.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsPart_withSeparators-12     	 7319187	       163.6 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsHead_withKeep-12           	 7067985	       167.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsTail_withKeep-12           	 7131930	       167.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsWord_withKeep-12           	 6952503	       172.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkSnakeCase_nonAlphabetsAsPart_withKeep-12           	 7275763	       164.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsHead-12                    	 7379620	       163.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsTail-12                    	 7612922	       157.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsWord-12                    	 7381154	       162.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsPart-12                    	 7581997	       157.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsHead_withSeparators-12     	 6967592	       170.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsTail_withSeparators-12     	 7006939	       171.0 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsWord_withSeparators-12     	 6837439	       174.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsPart_withSeparators-12     	 7233464	       164.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsHead_withKeep-12           	 6900954	       173.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsTail_withKeep-12           	 6900558	       172.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsWord_withKeep-12           	 6681561	       177.8 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTitleCase_nonAlphabetsAsPart_withKeep-12           	 7113062	       167.4 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsHead-12                    	 7371393	       162.7 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsTail-12                    	 7572328	       157.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsWord-12                    	 7371162	       162.3 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsPart-12                    	 7576525	       159.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsHead_withSeparators-12     	 7023416	       170.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsTail_withSeparators-12     	 6980438	       170.2 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsWord_withSeparators-12     	 6774950	       175.6 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsPart_withSeparators-12     	 7236951	       164.6 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsHead_withKeep-12           	 6920914	       172.5 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsTail_withKeep-12           	 6901936	       172.9 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsWord_withKeep-12           	 6680547	       178.1 ns/op	     120 B/op	       2 allocs/op
+BenchmarkTrainCase_nonAlphabetsAsPart_withKeep-12           	 7118174	       167.6 ns/op	     120 B/op	       2 allocs/op
+PASS
+ok  	github.com/sttk/stringcase	163.238s
+```
