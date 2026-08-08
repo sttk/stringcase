@@ -197,7 +197,7 @@ func TestTitleCaseWithOptions(t *testing.T) {
 		})
 
 		t.Run("convert Ada_Case", func(t *testing.T) {
-			result := stringcase.TitleCaseWithOptions("Abc-Def-Ghi", opts)
+			result := stringcase.TitleCaseWithOptions("Abc_Def_Ghi", opts)
 			assert.Equal(t, result, "Abc Def Ghi")
 		})
 
@@ -744,7 +744,7 @@ func TestTitleCaseWithOptions(t *testing.T) {
 			assert.Equal(t, result, "Abc   Def   Ghi")
 		})
 
-		t.Run("convert ADa_Case", func(t *testing.T) {
+		t.Run("convert Ada_Case", func(t *testing.T) {
 			opts := origOpts
 			opts.Separators = "_"
 			result := stringcase.TitleCaseWithOptions("Abc_Def_Ghi", opts)
