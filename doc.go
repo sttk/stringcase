@@ -1,11 +1,12 @@
-// Copyright (C) 2024 Takayuki Sato. All Rights Reserved.
+// Copyright (C) 2024-2026 Takayuki Sato. All Rights Reserved.
 // This program is free software under MIT License.
 // See the file LICENSE in this distribution for more details.
 
 /*
-This library provides some functions that convert string cases between
-camelCase, COBOL-CASE, kebab-case, MACRO_CASE, PascalCase, snake_case and
-Train-Case.
+This library provides some functions that convert string cases between Ada_Case, camelCase,
+COBOL-CASE, kebab-case, MACRO_CASE, PascalCase, snake_case, Title Case, and Train-Case.
+In addition, the functions Capitalize, Lowerize, and Upperize are provided to convert
+string cases with a custom joiner character.
 
 Essentially, these functions only target ASCII uppercase and lowercase letters for capitalization.
 All characters other than ASCII uppercase and lowercase letters and ASCII numbers are removed as
