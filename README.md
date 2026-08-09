@@ -1,4 +1,4 @@
-# [stringcase][repo-url] [![Go Reference][pkg-dev-img]][pkg-dev-url] [![CI Status][ci-img]][ci-url] [![MIT License][mit-img]][mit-url]
+# [stringcase][repo-url] [![Release][release-img]][release-url] [![Go Reference][pkg-dev-img]][pkg-dev-url] [![CI Status][ci-img]][ci-url] [![MIT License][mit-img]][mit-url]
 
 This library provides some functions that convert string cases between Ada_Case, camelCase,
 COBOL-CASE, kebab-case, MACRO_CASE, PascalCase, snake_case, Title Case, and Train-Case.
@@ -24,13 +24,21 @@ non-alphabetic characters.
 In other words, they behave as if
 `SeparateBeforeNonAlphabets = false` and `SeparateAfterNonAlphabets = true`.
 
+
 ## Install
 
-Write the following import declaration, then run `go mod tidy`.
+To get the latest version of this package, run the following command:
 
-```go
-import "github.com/sttk/stringcase"
+```bash
+go get github.com/sttk/stringcase
 ```
+
+To get a specific version of this package, run the following command:
+
+```bash
+go get github.com/sttk/stringcase@v1.0.0
+```
+
 
 ## Usage
 
@@ -83,43 +91,38 @@ This library supports Go 1.18 or later.
 ### Actual test results for each Go version:
 
 ```sh
-% gvm-fav
-Now using version go1.18.10
-go version go1.18.10 darwin/amd64
-ok  	github.com/sttk/stringcase	0.317s	coverage: 100.0% of statements
+% go-fav -tags=github.sttk.errs.notify 1.26.2 1.25.9 1.24.13 1.23.12 1.20.14 \
+         -ldflags="-linkmode=external" 1.22.12 1.21.13 1.19.13 1.18.10
+go version go1.26.2 darwin/amd64
+ok  	github.com/sttk/stringcase	0.585s	coverage: 100.0% of statements
 
-Now using version go1.19.13
-go version go1.19.13 darwin/amd64
-ok  	github.com/sttk/stringcase	0.361s	coverage: 100.0% of statements
+go version go1.25.9 darwin/amd64
+ok  	github.com/sttk/stringcase	0.540s	coverage: 100.0% of statements
 
-Now using version go1.20.14
-go version go1.20.14 darwin/amd64
-ok  	github.com/sttk/stringcase	0.320s	coverage: 100.0% of statements
+go version go1.24.13 darwin/amd64
+ok  	github.com/sttk/stringcase	0.535s	coverage: 100.0% of statements
 
-Now using version go1.21.13
-go version go1.21.13 darwin/amd64
-ok  	github.com/sttk/stringcase	0.332s	coverage: 100.0% of statements
-
-Now using version go1.22.12
-go version go1.22.12 darwin/amd64
-ok  	github.com/sttk/stringcase	0.355s	coverage: 100.0% of statements
-
-Now using version go1.23.10
-go version go1.23.10 darwin/amd64
-ok  	github.com/sttk/stringcase	0.361s	coverage: 100.0% of statements
-
-Now using version go1.24.6
-go version go1.24.6 darwin/amd64
-go: downloading github.com/stretchr/testify v1.8.4
-ok  	github.com/sttk/stringcase	0.370s	coverage: 100.0% of statements
-
-Now using version go1.25.0
-go version go1.25.0 darwin/amd64
-go: downloading github.com/stretchr/testify v1.8.4
+go version go1.23.12 darwin/amd64
 ok  	github.com/sttk/stringcase	0.349s	coverage: 100.0% of statements
 
-Back to go1.25.0
-Now using version go1.25.0
+go version go1.20.14 darwin/amd64
+ok  	github.com/sttk/stringcase	0.345s	coverage: 100.0% of statements
+
+go version go1.22.12 darwin/amd64
+ok  	github.com/sttk/stringcase	0.534s	coverage: 100.0% of statements
+
+go version go1.21.13 darwin/amd64
+ok  	github.com/sttk/stringcase	0.534s	coverage: 100.0% of statements
+
+go version go1.19.13 darwin/amd64
+# github.com/sttk/stringcase.test
+ld: warning: '***/go.o' has malformed LC_DYSYMTAB, expected 62 undefined symbols to start at index 8649, found 72 undefined symbols starting at index 64
+ok  	github.com/sttk/stringcase	0.509s	coverage: 100.0% of statements
+
+go version go1.18.10 darwin/amd64
+# github.com/sttk/stringcase.test
+ld: warning: '***/go.o' has malformed LC_DYSYMTAB, expected 59 undefined symbols to start at index 8513, found 69 undefined symbols starting at index 65
+ok  	github.com/sttk/stringcase	0.513s	coverage: 100.0% of statements
 ```
 
 ## License
@@ -131,6 +134,8 @@ See the file LICENSE in this distribution for more details.
 
 
 [repo-url]: https://github.com/sttk/stringcase
+[release-img]: https://img.shields.io/badge/release-1.0.0-0f9999.svg
+[release-url]: https://github.com/sttk/stringcase/releases
 [pkg-dev-img]: https://pkg.go.dev/badge/github.com/sttk/stringcase.svg
 [pkg-dev-url]: https://pkg.go.dev/github.com/sttk/stringcase
 [ci-img]: https://github.com/sttk/stringcase/actions/workflows/go.yml/badge.svg?branch=main
