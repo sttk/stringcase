@@ -34,7 +34,7 @@ import "github.com/sttk/stringcase"
 
 ## Usage
 
-This functions contained in this library are executed as follows:
+The functions contained in this library are executed as follows:
 
 ```go
 func main() {
