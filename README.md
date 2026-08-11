@@ -28,13 +28,13 @@ In other words, they behave as if
 
 Write the following import declaration, then run `go mod tidy`.
 
-```
+```go
 import "github.com/sttk/stringcase"
 ```
 
 ## Usage
 
-This functions contained in this library are excuted as follows:
+This functions contained in this library are executed as follows:
 
 ```go
 func main() {
