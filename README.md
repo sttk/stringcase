@@ -60,7 +60,7 @@ func main() {
 }
 ```
 
-You can also use the the functions `Capitalize`, `Lowerize`, and `Upperize` to convert
+You can also use the functions `Capitalize`, `Lowerize`, and `Upperize` to convert
 strings into capitalized, lowercased, or uppercased words joined by a custom joiner character:
 
 ```go
@@ -72,7 +72,7 @@ func main() {
     input := "fooBar123Bar"
     output := stringcase.Capitalize(input, '.', opts)
     fmt.Printf("%s\n", output)
-    // => "foo.bar.123.baz"
+    // => "Foo.Bar.123.Baz"
 }
 ```
 
